@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ReactiveProperty.WPF" Version="9.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RtFileExplorer.Model\RtFileExplorer.Model.csproj" />
+    <ProjectReference Include="..\RtFileExplorer.ViewModel\RtFileExplorer.ViewModel.Wpf.csproj" />
+    <ProjectReference Include="..\Utility.Wpf\Utility.Wpf.csproj" />
+  </ItemGroup>
+
+</Project>

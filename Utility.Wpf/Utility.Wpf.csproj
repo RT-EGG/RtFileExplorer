@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Back.png" />
+    <None Remove="Resources\Next.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Back.png" />
+    <EmbeddedResource Include="Resources\Next.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Utility\Utility.csproj" />
+  </ItemGroup>
+
+</Project>

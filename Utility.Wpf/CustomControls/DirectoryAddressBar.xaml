@@ -1,0 +1,120 @@
+﻿<UserControl x:Class="Utility.Wpf.CustomControls.DirectoryAddressBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Utility.Wpf.CustomControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style TargetType="Button" x:Key="TransparentButton">
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="Transparent" />
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="TransparentButtonContentPresenter" 
+                                          Content="{TemplateBinding Content}"
+                                          HorizontalAlignment="Center" 
+                                          VerticalAlignment="Center" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Foreground" Value="Transparent"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="24" />
+            <ColumnDefinition Width="24" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Button
+            x:Name="Button_Back"
+            Grid.Column="0" Margin="3"
+            Style="{StaticResource TransparentButton}"
+            ToolTip="戻る"
+            Click="Button_Back_Click"
+            IsEnabled="False"
+        >
+            <Image 
+                x:Name="ButtonImage_Back"
+                Source="..\Resources\Back.png" 
+                Stretch="Uniform"
+            >
+                <Image.Style>
+                    <Style TargetType="Image">
+                        <Style.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.5" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
+        </Button>
+        <Button
+            x:Name="Button_Next"
+            Grid.Column="1" Margin="3"
+            Style="{StaticResource TransparentButton}"
+            ToolTip="進む"
+            Click="Button_Next_Click"
+            IsEnabled="False"
+        >
+            <Image 
+                x:Name="ButtonImage_Next"
+                Source="..\Resources\Next.png" 
+                Stretch="Uniform"
+            >
+                <Image.Style>
+                    <Style TargetType="Image">
+                        <Style.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.5" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
+        </Button>
+        <Grid
+            Grid.Column="2"
+            Margin="3"
+        >
+            <TextBox
+                x:Name="TextBox"
+                IsReadOnly="False"
+                GotFocus="TextBox_GotFocus"
+                LostFocus="TextBox_LostFocus"
+            >
+                <TextBox.InputBindings>
+                    <KeyBinding Gesture="Enter" Command="{x:Static local:DirectoryAddressBar.OnInputEnterTextBoxCommand}"/>
+                    <KeyBinding Gesture="Escape" Command="{x:Static local:DirectoryAddressBar.OnInputEscapeTextBoxCommand}"/>
+                </TextBox.InputBindings>
+            </TextBox>
+            <StackPanel 
+                Width="Auto" HorizontalAlignment="Left"
+                x:Name="StackPanel"
+                Orientation="Horizontal"
+                Background="Transparent"
+                Focusable="True"
+            >
+            </StackPanel>
+            <ContentControl 
+                x:Name="DummyFocasable"
+                HorizontalAlignment="Right" Width="0.0"
+                Focusable="True"
+            />
+        </Grid>
+    </Grid>
+</UserControl>
