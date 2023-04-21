@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Utility.Wpf.Extensions;
 
 namespace RtFileExplorer.View
 {
@@ -65,6 +66,30 @@ namespace RtFileExplorer.View
 
                 if (column is not null)
                     DataGrid.Columns.Add(column);
+            }
+        }
+
+        private void DataGrid_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var element = (UIElement)e.OriginalSource;
+
+            var cell = element.FindAncestor<DataGridCell>();
+            if (cell is null)
+                return;
+
+            if (e.ClickCount > 1)
+            {
+                e.Handled = true;
+
+                if (!(cell.DataContext is PathInformationViewModel file))
+                    return;
+
+                if (!(DataContext is DirectoryViewModel directory))
+                    return;
+
+                var parameter = new object[] { file };
+                if (directory.OpenPathCommand.CanExecute(parameter))
+                    directory.OpenPathCommand.Execute(parameter);
             }
         }
     }
