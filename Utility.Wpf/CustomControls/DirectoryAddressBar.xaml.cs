@@ -42,21 +42,7 @@ namespace Utility.Wpf.CustomControls
         public IEnumerable<string> Items
         {
             get => (IEnumerable<string>)GetValue(ItemsProperty);
-            set {
-                var newItems = new List<string>(value.Where(item => !string.IsNullOrEmpty(item)));
-                var oldItems = new List<string>(Items.Where(item => !string.IsNullOrEmpty(item)));
-
-                if ((newItems.Count == oldItems.Count) 
-                    && newItems.Indexed().All(item => oldItems[item.Item1] == item.Item2))
-                {
-                    return;
-                }
-
-                if (oldItems.Any())
-                    UndoPathes.Push(string.Join('/', oldItems));
-
-                SetValue(ItemsProperty, value);
-            }
+            set => SetValue(ItemsProperty, new List<string>(value.Where(item => !string.IsNullOrEmpty(item))));
         }
 
         public void Undo()
@@ -67,13 +53,22 @@ namespace Utility.Wpf.CustomControls
             var path = UndoPathes.Pop();
             if (!Directory.Exists(path))
             {
-                ShowErrorMessage($"\"{path}\"は見つかりません。\n削除されたか名前が変更された可能性があります。");
+                Messages.ShowErrorMessage($"\"{path}\"は見つかりません。\n削除されたか名前が変更された可能性があります。");
                 UndoPathes.Clear();
                 return;
             }
 
             RedoPathes.Push(string.Join('/', Items.Where(item => !string.IsNullOrEmpty(item))));
-            SetValue(ItemsProperty, path.Split('/', StringSplitOptions.RemoveEmptyEntries));
+
+            IsUndoing = true;
+            try
+            {
+                Items = path.Split('/', StringSplitOptions.RemoveEmptyEntries);
+            }
+            finally
+            {
+                IsUndoing = false;
+            }
         }
 
         public void Redo()
@@ -84,13 +79,12 @@ namespace Utility.Wpf.CustomControls
             var path = RedoPathes.Pop();
             if (!Directory.Exists(path))
             {
-                ShowErrorMessage($"\"{path}\"は見つかりません。\n削除されたか名前が変更された可能性があります。");
+                Messages.ShowErrorMessage($"\"{path}\"は見つかりません。\n削除されたか名前が変更された可能性があります。");
                 RedoPathes.Clear();
                 return;
             }
 
-            UndoPathes.Push(string.Join('/', Items.Where(item => !string.IsNullOrEmpty(item))));
-            SetValue(ItemsProperty, path.Split('/', StringSplitOptions.RemoveEmptyEntries));
+            Items = path.Split('/', StringSplitOptions.RemoveEmptyEntries);
         }
 
         protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
@@ -100,7 +94,29 @@ namespace Utility.Wpf.CustomControls
             switch (e.Property.Name)
             {
                 case nameof(Items):
-                    SetupButtons();
+                    if (!(e.NewValue is IList<string> newValue))
+                        break;
+
+                    if (LastItems is not null)
+                    {
+                        if (!newValue.SequenceEqual(LastItems))
+                        {
+                            if (!IsUndoing)
+                            {
+                                if (LastItems.Any())
+                                    UndoPathes.Push(string.Join('/', LastItems));
+                                RedoPathes.Clear();
+                            }
+
+                            SetupButtons();
+                        }
+                    }
+                    else
+                    {
+                        SetupButtons();
+                    }
+
+                    LastItems = new List<string>(newValue);
 
                     Button_Back.IsEnabled = Undoable;
                     Button_Next.IsEnabled = Redoable;
@@ -139,7 +155,7 @@ namespace Utility.Wpf.CustomControls
             var newDirectory = TextBox.Text.Replace('/', '\\');
             if (!Directory.Exists(newDirectory))
             {
-                ShowErrorMessage($"\"{newDirectory}\"は見つかりません。");
+                Messages.ShowErrorMessage($"\"{newDirectory}\"は見つかりません。");
             }
             else
             {
@@ -195,20 +211,10 @@ namespace Utility.Wpf.CustomControls
             }
         }
 
-        private static void ShowErrorMessage(string inText)
-        {
-            var assembly = System.Reflection.Assembly.GetEntryAssembly();
-            if (assembly is null)
-                throw new InvalidProgramException();
-
-            MessageBox.Show(
-                inText, assembly.GetName().Name,
-                MessageBoxButton.OK, MessageBoxImage.Error
-            );
-        }
-
         private bool Undoable => UndoPathes.Any();
         private bool Redoable => RedoPathes.Any();
+        private bool IsUndoing { get; set; } = false;
+        private List<string>? LastItems { get; set; } = null;
         private readonly Stack<string> UndoPathes = new Stack<string>();
         private readonly Stack<string> RedoPathes = new Stack<string>();
 

@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RtFileExplorer.Model\RtFileExplorer.Model.csproj" />
+    <ProjectReference Include="..\Utility.Wpf\Utility.Wpf.csproj" />
     <ProjectReference Include="..\Utility\Utility.csproj" />
   </ItemGroup>
 

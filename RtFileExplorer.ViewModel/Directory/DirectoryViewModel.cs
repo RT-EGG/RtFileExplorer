@@ -39,7 +39,13 @@ namespace RtFileExplorer.ViewModel.Wpf.Directory
         public string Directory
         {
             get => _directory.Value;
-            set => _directory.Value = value;
+            set
+            {
+                if (Directory != value)
+                {
+                    _directory.Value = value;
+                }
+            }
         }
 
         public IEnumerable<string> DirectoryPathes
