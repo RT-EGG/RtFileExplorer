@@ -40,6 +40,7 @@
             Focusable="False"
             PreviewMouseLeftButtonDown="DataGrid_PreviewMouseLeftButtonDown"
             PreviewKeyDown="DataGrid_PreviewKeyDown"
+            CellEditEnding="DataGrid_CellEditEnding"
         />
     </Grid>
 </UserControl>

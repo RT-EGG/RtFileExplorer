@@ -10,7 +10,7 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
             UpdateDirectoryInfo();
         }
 
-        protected override bool ChangeName(string inName)
+        protected override bool ChangePath(string inPath)
         {
             return false;
         }

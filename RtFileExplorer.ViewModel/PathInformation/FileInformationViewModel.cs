@@ -22,22 +22,23 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
             FileExecutor.Instance.Execute(Path);
         }
 
-        protected override bool ChangeName(string inName)
+        protected override bool ChangePath(string inPath)
         {
-            if (File.Exists(inName))
+            if (File.Exists(inPath))
             {
-                Messages.ShowErrorMessage($"\"{inName}\"は既に存在します。");
+                Messages.ShowErrorMessage($"\"{inPath}\"は既に存在します。");
                 return false;
             }
 
             try
             {
-                File.Move(Path, inName);
+                File.Move(Path, inPath);
 
             }
             catch (Exception e)
             {
                 Messages.ShowErrorMessage($"Error occued, {e.GetType()}.{Environment.NewLine}{e.Message}");
+                return false;
             }
 
             return true;    

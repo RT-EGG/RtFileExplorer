@@ -41,11 +41,12 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
                 if (Name == value)
                     return;
 
-                if (ChangeName(value))
+                var newPath = System.IO.Path.GetDirectoryName(Path)!
+                                .Replace('\\', '/').TrimEnd('/')
+                                + $"/{value}";
+                if (ChangePath(newPath))
                 {
-                    _filepath.Value =
-                        System.IO.Path.GetDirectoryName(_filepath.Value)!.TrimEnd('/')
-                        + $"/{value}";
+                    _filepath.Value = newPath;
                 }
             }
         }
@@ -58,7 +59,7 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
         public DateTime LastAccessTime => _lastAccessTime.Value;
 
         protected virtual string GetFileName(string inPath) => System.IO.Path.GetFileName(Path);
-        protected abstract bool ChangeName(string inName);
+        protected abstract bool ChangePath(string inPath);
 
         protected void SetFilepath(string inFilepath)
         {

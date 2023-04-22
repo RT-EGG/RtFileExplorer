@@ -13,7 +13,7 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
         public override bool IsNameChangeable => false;
 
         protected override string GetFileName(string inPath) => inPath;
-        protected override bool ChangeName(string inName)
+        protected override bool ChangePath(string inName)
             => throw new InvalidProgramException();
     }
 }

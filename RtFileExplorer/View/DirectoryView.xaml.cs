@@ -142,5 +142,21 @@ namespace RtFileExplorer.View
                     break;
             }
         }
+
+        private void DataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            switch (e.EditAction)
+            {
+                case DataGridEditAction.Commit:
+                    if (e.EditingElement is TextBox textBox)
+                    {
+                        var expression = textBox.GetBindingExpression(TextBox.TextProperty);
+                        if (expression is not null)
+                            expression.UpdateSource();
+                    }
+
+                    break;
+            }
+        }
     }
 }
