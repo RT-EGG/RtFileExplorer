@@ -81,15 +81,65 @@ namespace RtFileExplorer.View
             {
                 e.Handled = true;
 
-                if (!(cell.DataContext is PathInformationViewModel file))
+                if (!(cell.DataContext is PathInformationViewModel rowViewModel))
                     return;
 
-                if (!(DataContext is DirectoryViewModel directory))
+                if (!(DataContext is DirectoryViewModel viewModel))
                     return;
 
-                var parameter = new object[] { file };
-                if (directory.OpenPathCommand.CanExecute(parameter))
-                    directory.OpenPathCommand.Execute(parameter);
+                var parameter = new object[] { rowViewModel };
+                if (viewModel.OpenPathCommand.CanExecute(parameter))
+                    viewModel.OpenPathCommand.Execute(parameter);
+            }
+        }
+
+        private void DataGrid_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (!(sender is DataGrid grid))
+                return;
+
+            var row = grid.SelectedItem;
+            if (!(row is PathInformationViewModel rowViewModel))
+                return;
+
+            if (!(DataContext is DirectoryViewModel viewModel))
+                return;
+
+            e.Handled = true;
+            switch (e.Key)
+            {
+                case Key.Enter:
+                    if (DataGrid.GetIsEditing())
+                    {
+                        DataGrid.CommitEdit();
+                    }
+                    else
+                    {
+                        var parameter = new object[] { rowViewModel };
+                        if (viewModel.OpenPathCommand.CanExecute(parameter))
+                            viewModel.OpenPathCommand.Execute(parameter);
+                    }
+                    break;
+
+                case Key.F2:
+                    if (rowViewModel.IsNameChangeable)
+                    {
+                        var column = grid.Columns
+                                    .Where(c => c is IFileInformationDataColumn)
+                                    .FirstOrDefault(c =>
+                                        (c as IFileInformationDataColumn)!.ItemType == FilePropertyItemType.Name
+                                    );
+                        if (column is null)
+                            break;
+
+                        grid.CurrentCell = new DataGridCellInfo(row, column);
+                        grid.BeginEdit();
+                    }
+                    break;
+
+                default:
+                    e.Handled = false;
+                    break;
             }
         }
     }

@@ -61,14 +61,15 @@ namespace RtFileExplorer.View.Columns
             return result;
         }
 
-        public static BindingBase CreateBinding(FilePropertyItemType inType)
+        public static BindingBase CreateBinding(FilePropertyItemType inType,
+            UpdateSourceTrigger inUpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged)
         {
             var att = inType.GetFilePropertyAttribute();
 
             var result = new Binding();
             result.Path = PathInformationColumnViewModel.GetPropertyPath(inType);
             result.Mode = att.IsReadOnly ? BindingMode.OneWay : BindingMode.TwoWay;
-            result.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            result.UpdateSourceTrigger = inUpdateSourceTrigger;
 
             if (att.ColumnValueConverter is not null)
             {

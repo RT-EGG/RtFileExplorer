@@ -39,6 +39,7 @@
             EnableRowVirtualization="True"
             Focusable="False"
             PreviewMouseLeftButtonDown="DataGrid_PreviewMouseLeftButtonDown"
+            PreviewKeyDown="DataGrid_PreviewKeyDown"
         />
     </Grid>
 </UserControl>

@@ -6,6 +6,7 @@ namespace RtFileExplorer.Model.FileInformation
     {
         public FileInformationColumn(FilePropertyItemType inType)
         {
+            PropertyItemType = inType;
             var att = inType.GetFilePropertyAttribute();
 
             Width = new ReactiveProperty<double>(att.InitialWidth);
@@ -25,6 +26,7 @@ namespace RtFileExplorer.Model.FileInformation
             IsVisible.Value = inValue.IsVisible;
         }
 
+        public readonly FilePropertyItemType PropertyItemType;
         public readonly IReactiveProperty<double> Width;
         public readonly IReactiveProperty<bool> IsVisible;
     }

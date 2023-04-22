@@ -1,5 +1,7 @@
 ﻿using Reactive.Bindings;
+using System;
 using System.IO;
+using Utility.Wpf;
 
 namespace RtFileExplorer.ViewModel.Wpf.PathInformation
 {
@@ -13,19 +15,32 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
             UpdateFileInfo();
         }
 
-        public override string Name
-        {
-            get => System.IO.Path.GetFileName(Path);
-            set
-            {
-
-            }
-        }
         public override long? Size => _fileSize.Value;
 
         public void Execute()
         {
             FileExecutor.Instance.Execute(Path);
+        }
+
+        protected override bool ChangeName(string inName)
+        {
+            if (File.Exists(inName))
+            {
+                Messages.ShowErrorMessage($"\"{inName}\"は既に存在します。");
+                return false;
+            }
+
+            try
+            {
+                File.Move(Path, inName);
+
+            }
+            catch (Exception e)
+            {
+                Messages.ShowErrorMessage($"Error occued, {e.GetType()}.{Environment.NewLine}{e.Message}");
+            }
+
+            return true;    
         }
 
         private void UpdateFileInfo()
