@@ -17,21 +17,31 @@ namespace RtFileExplorer.ViewModel.Wpf.Directory
                 FirePropertyChanged(nameof(Directory), nameof(DirectoryPathes));
 
                 ClearPathes();
-                if (!System.IO.Directory.Exists(d))
-                    return;
+                if (string.IsNullOrEmpty(d))
+                {
+                    // PC表示（ドライブリスト）
+                    System.IO.DriveInfo.GetDrives()
+                        .Where(drive => drive.IsReady)
+                        .ForEach(drive => AddPathInformation(new DriveInformationViewModel(drive.Name)));
+                }
+                else
+                {
+                    if (!System.IO.Directory.Exists(d))
+                        return;
 
-                if (!d.EndsWith("\\"))
-                    d += "\\";
+                    if (!d.EndsWith("\\"))
+                        d += "\\";
 
-                System.IO.Directory.GetDirectories(d)
-                    .Where(d => System.IO.Directory.Exists(d))
-                    .ForEach(d => AddDirectory(d));
-                System.IO.Directory.GetFiles(d)
-                    .Where(f => System.IO.File.Exists(f))
-                    .ForEach(f => AddFile(f));
+                    System.IO.Directory.GetDirectories(d)
+                        .Where(directory => System.IO.Directory.Exists(directory))
+                        .ForEach(directory => AddPathInformation(new DirectoryInformationViewModel(directory)));
+                    System.IO.Directory.GetFiles(d)
+                        .Where(f => System.IO.File.Exists(f))
+                        .ForEach(f => AddPathInformation(new FileInformationViewModel(f)));
+                }
             });
 
-            Directory = @"Z:\hoge\cmc";
+            Directory = "";
 
             OpenPathCommand = new OpenPathCommandClass(this);
         }

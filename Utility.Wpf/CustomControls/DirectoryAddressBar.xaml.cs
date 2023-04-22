@@ -51,7 +51,8 @@ namespace Utility.Wpf.CustomControls
                 throw new InvalidProgramException();
 
             var path = UndoPathes.Pop();
-            if (!Directory.Exists(path))
+            // null文字列は"PC"ディレクトリ（ドライブリスト）とする
+            if (!string.IsNullOrEmpty(path) && !Directory.Exists(path))
             {
                 Messages.ShowErrorMessage($"\"{path}\"は見つかりません。\n削除されたか名前が変更された可能性があります。");
                 UndoPathes.Clear();
@@ -77,7 +78,8 @@ namespace Utility.Wpf.CustomControls
                 throw new InvalidProgramException();
 
             var path = RedoPathes.Pop();
-            if (!Directory.Exists(path))
+            // null文字列は"PC"ディレクトリ（ドライブリスト）とする
+            if (!string.IsNullOrEmpty(path) && !Directory.Exists(path))
             {
                 Messages.ShowErrorMessage($"\"{path}\"は見つかりません。\n削除されたか名前が変更された可能性があります。");
                 RedoPathes.Clear();
@@ -153,7 +155,8 @@ namespace Utility.Wpf.CustomControls
         private void OnInputEnterTextBox(object sender, ExecutedRoutedEventArgs inArgs)
         {
             var newDirectory = TextBox.Text.Replace('/', '\\');
-            if (!Directory.Exists(newDirectory))
+            // null文字列は"PC"ディレクトリ（ドライブリスト）とする
+            if (!string.IsNullOrEmpty(newDirectory) && !Directory.Exists(newDirectory))
             {
                 Messages.ShowErrorMessage($"\"{newDirectory}\"は見つかりません。");
             }

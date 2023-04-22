@@ -30,10 +30,8 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
             }
         }
 
-        public void AddFile(string inFilepath)
-            => _pathes.Add(new FileInformationViewModel(inFilepath));
-        public void AddDirectory(string inDirectoryPath)
-            => _pathes.Add(new DirectoryInformationViewModel(inDirectoryPath));
+        public void AddPathInformation(PathInformationViewModel inValue)
+            => _pathes.Add(inValue);
 
         public void ClearPathes()
             => _pathes.Clear();
