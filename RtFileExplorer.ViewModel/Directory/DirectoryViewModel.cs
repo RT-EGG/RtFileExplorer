@@ -29,9 +29,6 @@ namespace RtFileExplorer.ViewModel.Wpf.Directory
                     if (!System.IO.Directory.Exists(d))
                         return;
 
-                    if (!d.EndsWith("\\"))
-                        d += "\\";
-
                     System.IO.Directory.GetDirectories(d)
                         .Where(directory => System.IO.Directory.Exists(directory))
                         .ForEach(directory => AddPathInformation(new DirectoryInformationViewModel(directory)));
@@ -60,7 +57,7 @@ namespace RtFileExplorer.ViewModel.Wpf.Directory
 
         public IEnumerable<string> DirectoryPathes
         {
-            get => Directory.Replace('\\', '/').Split('/');
+            get => Directory.Replace('\\', '/').Split('/', StringSplitOptions.RemoveEmptyEntries);
             set => Directory = string.Join("/", value);
         }
 
