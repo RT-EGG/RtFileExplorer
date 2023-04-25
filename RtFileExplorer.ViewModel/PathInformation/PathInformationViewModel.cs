@@ -16,6 +16,7 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
             RegisterPropertyNotification(_lastAccessTime, nameof(LastAccessTime));
 
             Path = inPath;
+            UpdateInformation();
         }
 
         public BitmapSource? Icon => _icon.Value;
@@ -60,7 +61,7 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
 
         public void UpdateInformation()
         {
-
+            UpdateInformationCore();
         }
 
         internal void NotifyPathChanged(string nNewPath)
@@ -69,12 +70,9 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
         protected virtual string GetFileName(string inPath) => System.IO.Path.GetFileName(Path);
         protected abstract bool ChangePath(string inPath);
 
-        protected void SetFilepath(string inFilepath)
-        {
-            Path = inFilepath;
-        }
+        protected abstract void UpdateInformationCore();
 
-        protected void UpdateInfo(FileSystemInfo inSource)
+        protected void UpdateCommonInformations(FileSystemInfo inSource)
         {
             BackgroundTaskQueue.Instance.AddTask(new BackgroundTask
             {

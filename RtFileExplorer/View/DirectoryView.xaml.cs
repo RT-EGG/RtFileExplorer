@@ -137,6 +137,11 @@ namespace RtFileExplorer.View
                     }
                     break;
 
+                case Key.F5:
+                    if (viewModel.RefreshCommand.CanExecute(null))
+                        viewModel.RefreshCommand.Execute(null);
+                    break;
+
                 default:
                     e.Handled = false;
                     break;

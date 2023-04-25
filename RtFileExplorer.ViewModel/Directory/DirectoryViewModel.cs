@@ -20,33 +20,13 @@ namespace RtFileExplorer.ViewModel.Wpf.Directory
 
                 FirePropertyChanged(nameof(Directory), nameof(DirectoryPathes));
 
-                ClearPathes();
-                if (string.IsNullOrEmpty(d))
-                {
-                    // PC表示（ドライブリスト）
-                    System.IO.DriveInfo.GetDrives()
-                        .Where(drive => drive.IsReady)
-                        .ForEach(drive => AddPathInformation(new DriveInformationViewModel(drive.Name)));
-                }
-                else
-                {
-                    if (!System.IO.Directory.Exists(d))
-                        return;
-
-                    System.IO.Directory.GetDirectories(d)
-                        .Where(directory => System.IO.Directory.Exists(directory))
-                        .ForEach(directory => AddPathInformation(new DirectoryInformationViewModel(directory.EnsureFileSystemPath())));
-                    System.IO.Directory.GetFiles(d)
-                        .Where(f => System.IO.File.Exists(f))
-                        .ForEach(f => AddPathInformation(new FileInformationViewModel(f.EnsureFileSystemPath())));
-
-                    _fileSystemWatcher = CreateNewWatcher(d);
-                }
+                Refresh();
             });
 
             Directory = "";
 
             OpenPathCommand = new OpenPathCommandClass(this);
+            RefreshCommand = new RefreshCommandClass(this);
         }
 
         public string Directory
@@ -68,6 +48,7 @@ namespace RtFileExplorer.ViewModel.Wpf.Directory
         }
 
         public ICommand OpenPathCommand { get; }
+        public ICommand RefreshCommand { get; }
 
         private FileSystemWatcher CreateNewWatcher(string inDirectoryPath)
         {

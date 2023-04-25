@@ -11,8 +11,6 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
             : base(inFilepath)
         {
             RegisterPropertyNotification(_fileSize, nameof(Size));
-
-            UpdateFileInfo();
         }
 
         public override long? Size => _fileSize.Value;
@@ -44,10 +42,10 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
             return true;    
         }
 
-        private void UpdateFileInfo()
+        protected override void UpdateInformationCore()
         {
             var info = new FileInfo(Path);
-            UpdateInfo(info);
+            UpdateCommonInformations(info);
 
             _fileSize.Value = info.Length;
         }
