@@ -40,6 +40,26 @@
             Enumerable.Range(0, inCount).ForEach(_ => inItems.RemoveAt(inIndex));
         }
 
+        public static void RemoveAll<T>(this IList<T> inItems, Predicate<T> inCondition)
+        {
+            if (inItems is List<T> list)
+            {
+                list.RemoveAll(inCondition);
+                return;
+            }
+
+            int index = 0;
+            while (index < inItems.Count)
+            {
+                if (inCondition(inItems[index]))
+                {
+                    inItems.RemoveAt(index);
+                    continue;
+                }
+                ++index;
+            }
+        }
+
         public static IEnumerable<IEnumerable<T>> Chunk<T>(this IEnumerable<T> inItems, int inChunkSize)
         {
             var items = inItems;

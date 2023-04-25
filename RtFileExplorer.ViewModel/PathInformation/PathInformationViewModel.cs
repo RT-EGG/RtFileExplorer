@@ -58,6 +58,14 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
         public DateTime LastWriteTime => _lastWriteTime.Value;
         public DateTime LastAccessTime => _lastAccessTime.Value;
 
+        public void UpdateInformation()
+        {
+
+        }
+
+        internal void NotifyPathChanged(string nNewPath)
+            => Path = nNewPath;
+
         protected virtual string GetFileName(string inPath) => System.IO.Path.GetFileName(Path);
         protected abstract bool ChangePath(string inPath);
 
