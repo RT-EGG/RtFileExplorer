@@ -2,6 +2,8 @@
 using RtFileExplorer.Model.FileInformation;
 using RtFileExplorer.ViewModel.Wpf.PathInformation;
 using System;
+using System.Globalization;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
@@ -24,6 +26,8 @@ namespace RtFileExplorer.View.Columns
             {
                 FilePropertyDataType.Icon
                     => new FileInformationImageDataColumn(inType),
+                FilePropertyDataType.Integer when inType == FilePropertyItemType.Rating
+                    => new FileInformationRatingDataColumn(inType),
                 FilePropertyDataType.String or
                 FilePropertyDataType.Integer or
                 FilePropertyDataType.DateTime
@@ -80,6 +84,25 @@ namespace RtFileExplorer.View.Columns
             }
 
             return result;
+        }
+
+        public class SupportedPathConverter : IValueConverter
+        {
+            public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+            {
+                if (value is not PathInformationViewModel dataContext)
+                    throw new InvalidProgramException();
+                if (parameter is not string propertyName)
+                    throw new InvalidProgramException();
+
+                return dataContext.GetIsSupported(propertyName)
+                        ? Visibility.Visible : Visibility.Hidden;
+            }
+
+            public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+            {
+                throw new NotImplementedException();
+            }
         }
     }    
 }

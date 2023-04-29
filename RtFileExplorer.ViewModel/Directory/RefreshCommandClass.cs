@@ -26,7 +26,7 @@ namespace RtFileExplorer.ViewModel.Wpf.Directory
                     .ForEach(directory => AddPathInformation(new DirectoryInformationViewModel(directory.EnsureFileSystemPath())));
                 System.IO.Directory.GetFiles(Directory)
                     .Where(f => System.IO.File.Exists(f))
-                    .ForEach(f => AddPathInformation(new FileInformationViewModel(f.EnsureFileSystemPath())));
+                    .ForEach(f => AddPathInformation(new FileInformationViewModel(this, f.EnsureFileSystemPath())));
 
                 _fileSystemWatcher = CreateNewWatcher(Directory);
             }

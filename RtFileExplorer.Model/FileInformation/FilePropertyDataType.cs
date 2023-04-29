@@ -5,6 +5,7 @@
         Icon,
         String,
         Integer,
-        DateTime
+        DateTime,
+        Rating
     }
 }

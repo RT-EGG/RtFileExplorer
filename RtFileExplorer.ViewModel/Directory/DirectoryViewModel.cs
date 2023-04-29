@@ -1,4 +1,5 @@
 ﻿using Reactive.Bindings;
+using RtFileExplorer.Model.FileInformation.FileProperty;
 using RtFileExplorer.ViewModel.Wpf.PathInformation;
 using System;
 using System.Collections.Generic;
@@ -49,6 +50,7 @@ namespace RtFileExplorer.ViewModel.Wpf.Directory
 
         public ICommand OpenPathCommand { get; }
         public ICommand RefreshCommand { get; }
+        internal readonly FileSharedProperties FileSharedProperties = new FileSharedProperties();
 
         private FileSystemWatcher CreateNewWatcher(string inDirectoryPath)
         {
@@ -94,7 +96,7 @@ namespace RtFileExplorer.ViewModel.Wpf.Directory
             var path = e.FullPath.EnsureFileSystemPath();
             if (System.IO.File.Exists(path))
             {
-                AddPathInformation(new FileInformationViewModel(path));
+                AddPathInformation(new FileInformationViewModel(this, path));
             }
             else if (System.IO.Directory.Exists(e.FullPath))
             {

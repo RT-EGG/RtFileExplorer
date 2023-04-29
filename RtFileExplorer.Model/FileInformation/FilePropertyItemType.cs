@@ -72,6 +72,17 @@ namespace RtFileExplorer.Model.FileInformation
             ColumnValueConverter = typeof(DateTimeToStringConverter)
         )]
         LastAccessDate,
+
+        [FileProperty(
+            DataType = FilePropertyDataType.Integer,
+            DisplayText = "評価",
+            InitialVisibility = true,
+            IsReadOnly = false,
+            IsReordable = true,
+            IsResizable = false,
+            IsSupported = true
+        )]
+        Rating,
     }
 
     public static class FilePropertyItemTypeAttributeExtractor

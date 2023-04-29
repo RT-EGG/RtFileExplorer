@@ -16,7 +16,21 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
             RegisterPropertyNotification(_lastAccessTime, nameof(LastAccessTime));
 
             Path = inPath;
-            UpdateInformation();
+        }
+
+        public virtual bool GetIsSupported(string inPropertyName)
+        {
+            return inPropertyName switch
+            {
+                nameof(Icon) or
+                nameof(Path) or
+                nameof(Name) or
+                nameof(CreationTime) or
+                nameof(LastWriteTime) or
+                nameof(LastAccessTime)
+                    => true,
+                _ => false,
+            };
         }
 
         public BitmapSource? Icon => _icon.Value;
@@ -58,6 +72,9 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
         public DateTime CreationTime => _creationTime.Value;
         public DateTime LastWriteTime => _lastWriteTime.Value;
         public DateTime LastAccessTime => _lastAccessTime.Value;
+
+        public virtual uint? Rating
+        { get => null; set { } }
 
         public void UpdateInformation()
         {

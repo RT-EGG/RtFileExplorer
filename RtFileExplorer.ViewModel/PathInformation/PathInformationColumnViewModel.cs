@@ -31,16 +31,20 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
             set => Model!.IsVisible.Value = value;
         }
 
-        public static PropertyPath GetPropertyPath(FilePropertyItemType inType)
+        public static string GetPropertyName(FilePropertyItemType inType)
             => inType switch {
-                FilePropertyItemType.Icon => new PropertyPath(nameof(PathInformationViewModel.Icon)),
-                FilePropertyItemType.Name => new PropertyPath(nameof(PathInformationViewModel.Name)),
-                FilePropertyItemType.Size => new PropertyPath(nameof(FileInformationViewModel.Size)),
-                FilePropertyItemType.CreationDate => new PropertyPath(nameof(PathInformationViewModel.CreationTime)),
-                FilePropertyItemType.LastWriteDate => new PropertyPath(nameof(PathInformationViewModel.LastWriteTime)),
-                FilePropertyItemType.LastAccessDate => new PropertyPath(nameof(PathInformationViewModel.LastAccessTime)),
+                FilePropertyItemType.Icon => nameof(PathInformationViewModel.Icon),
+                FilePropertyItemType.Name => nameof(PathInformationViewModel.Name),
+                FilePropertyItemType.Size => nameof(FileInformationViewModel.Size),
+                FilePropertyItemType.CreationDate => nameof(PathInformationViewModel.CreationTime),
+                FilePropertyItemType.LastWriteDate => nameof(PathInformationViewModel.LastWriteTime),
+                FilePropertyItemType.LastAccessDate => nameof(PathInformationViewModel.LastAccessTime),
+                FilePropertyItemType.Rating => nameof(PathInformationViewModel.Rating),
                 _ => throw new NotSupportedException()
             };
+
+        public static PropertyPath GetPropertyPath(FilePropertyItemType inType)
+            => new PropertyPath(GetPropertyName(inType));
 
         protected override void BindModelProperties(FileInformationColumn inModel)
         {

@@ -8,7 +8,9 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
     {
         public DirectoryInformationViewModel(string inPath) 
             : base(inPath)
-        { }
+        {
+            UpdateInformation();
+        }
 
         protected override bool ChangePath(string inPath)
         {
