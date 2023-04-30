@@ -47,8 +47,6 @@ namespace RtFileExplorer.View.Columns
             public RatingButtonElementFactory(PropertyPath inPropertyPath, uint inRatingNumber)
                 : base (typeof(Button))
             {
-                RatingNumber = inRatingNumber;
-
                 SetBinding(Button.ContentProperty, new Binding()
                 {
                     Path = inPropertyPath,
@@ -71,8 +69,6 @@ namespace RtFileExplorer.View.Columns
                     }
                 }
             }
-
-            private readonly uint RatingNumber;
         }
 
         private class RatingToTextConverter : IValueConverter
