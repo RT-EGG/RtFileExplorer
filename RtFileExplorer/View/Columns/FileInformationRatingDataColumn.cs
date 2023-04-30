@@ -33,7 +33,7 @@ namespace RtFileExplorer.View.Columns
 
             for (uint i = 0; i < 5; ++i)
             {
-                var button = new RatingButtonElementFactory(propertyPath, i);
+                var button = new RatingButtonElementFactory(propertyPath, i + 1);
                 panel.AppendChild(button);
             }
 
@@ -85,10 +85,10 @@ namespace RtFileExplorer.View.Columns
                 if (value is null)
                     return "☆";
 
-                if (value is int || value is uint)
+                if (value is uint)
                 {
-                    var rating = (int)value;
-                    return rating >= (int)parameter ? "★" : "☆";
+                    var rating = (uint)value;
+                    return rating >= (uint)parameter ? "★" : "☆";
                 }
 
                 return "";

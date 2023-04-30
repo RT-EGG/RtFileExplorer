@@ -39,6 +39,8 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
         public void ClearPathes()
             => _pathes.Clear();
 
+        public IEnumerable<PathInformationViewModel> Pathes => _pathes;
+
         public bool TryGetFirst(Predicate<PathInformationViewModel> inPredication, out PathInformationViewModel? outPath)
         {
             outPath = _pathes.FirstOrDefault(item => inPredication(item));

@@ -44,17 +44,26 @@ namespace RtFileExplorer.Model.FileInformation.FileProperty
             });
         }
 
-        public readonly Utility.ReactiveCollection<FileAuthor> Authors = new Utility.ReactiveCollection<FileAuthor>();
-        public readonly IReactiveProperty<uint?> Rating = new ReactiveProperty<uint?>();
-        public readonly Utility.ReactiveCollection<FileTag> Tags = new Utility.ReactiveCollection<FileTag>();
+        public Utility.ReactiveCollection<FileAuthor> Authors { get; } = new Utility.ReactiveCollection<FileAuthor>();
+        public IReactiveProperty<uint?> Rating { get; } = new ReactiveProperty<uint?>();
+        public Utility.ReactiveCollection<FileTag> Tags { get; } = new Utility.ReactiveCollection<FileTag>();
 
-        public Json ExportTo()
-            => new Json
+        public Json? Export()
+        {
+            if (Rating.Value is not null
+                || Authors.Any()
+                || Tags.Any())
             {
-                Rating = Rating.Value,
-                Authors = Authors.Any() ? Authors.Select(item => item.ID).ToArray() : null,
-                Tags = Tags.Any() ? Tags.Select(item => item.ID).ToArray() : null,
-            };
+                return new Json
+                {
+                    Rating = Rating.Value,
+                    Authors = Authors.Any() ? Authors.Select(item => item.ID).ToArray() : null,
+                    Tags = Tags.Any() ? Tags.Select(item => item.ID).ToArray() : null,
+                };
+            }
+
+            return null;
+        }
 
         public void ImportFrom(Json inJson)
         {

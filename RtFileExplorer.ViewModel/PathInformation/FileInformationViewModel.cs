@@ -2,7 +2,6 @@
 using RtFileExplorer.Model.FileInformation.FileProperty;
 using RtFileExplorer.ViewModel.Wpf.Directory;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using Utility.Wpf;
 
@@ -14,7 +13,10 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
             : base(inFilepath)
         {
             Parent = inParent;
+            _extraProperties = new FileExtraProperties(Parent.SharedProperties);
+
             RegisterPropertyNotification(_fileSize, nameof(Size));
+            RegisterPropertyNotification(_extraProperties.Rating, nameof(Rating));
 
             UpdateInformation();
         }
@@ -39,9 +41,11 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
         public override long? Size => _fileSize.Value;
         public override uint? Rating 
         { 
-            get => _extraProperties?.Rating?.Value;
-            set => GetToSetProperty().Rating.Value = value; 
+            get => _extraProperties.Rating.Value;
+            set => _extraProperties.Rating.Value = value; 
         }
+
+        public FileExtraProperties? ExtraProperties => _extraProperties;
 
         protected override bool ChangePath(string inPath)
         {
@@ -72,15 +76,8 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
             _fileSize.Value = info.Length;
         }
 
-        private FileExtraProperties GetToSetProperty()
-        {
-            if (_extraProperties is null)
-                _extraProperties = new FileExtraProperties(Parent.FileSharedProperties);
-            return _extraProperties;
-        }
-
         private readonly DirectoryViewModel Parent;
         private ReactiveProperty<long> _fileSize = new ReactiveProperty<long>();
-        private FileExtraProperties? _extraProperties = null;
+        private FileExtraProperties _extraProperties;
     }
 }

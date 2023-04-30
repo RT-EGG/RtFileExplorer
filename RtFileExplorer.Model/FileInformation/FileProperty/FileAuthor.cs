@@ -10,7 +10,6 @@ namespace RtFileExplorer.Model.FileInformation.FileProperty
             Name.Value = inName;
         }
 
-
         public Json Export()
             => ExportTo(new Json());
 
@@ -22,7 +21,7 @@ namespace RtFileExplorer.Model.FileInformation.FileProperty
             return result;
         }
 
-        public readonly IReactiveProperty<string> Name = new ReactiveProperty<string>();
+        public IReactiveProperty<string> Name { get; } = new ReactiveProperty<string>();
 
         protected override Json ExportTo(Json inJson)
         {

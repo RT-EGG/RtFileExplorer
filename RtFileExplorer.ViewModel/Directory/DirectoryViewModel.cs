@@ -1,4 +1,5 @@
-﻿using Reactive.Bindings;
+﻿using Newtonsoft.Json;
+using Reactive.Bindings;
 using RtFileExplorer.Model.FileInformation.FileProperty;
 using RtFileExplorer.ViewModel.Wpf.PathInformation;
 using System;
@@ -37,6 +38,8 @@ namespace RtFileExplorer.ViewModel.Wpf.Directory
             {
                 if (Directory != value)
                 {
+                    ExportPropertiesFile();
+
                     _directory.Value = value;
                 }
             }
@@ -50,7 +53,7 @@ namespace RtFileExplorer.ViewModel.Wpf.Directory
 
         public ICommand OpenPathCommand { get; }
         public ICommand RefreshCommand { get; }
-        internal readonly FileSharedProperties FileSharedProperties = new FileSharedProperties();
+        internal FileSharedProperties SharedProperties { get; } = new FileSharedProperties();
 
         private FileSystemWatcher CreateNewWatcher(string inDirectoryPath)
         {
@@ -125,6 +128,44 @@ namespace RtFileExplorer.ViewModel.Wpf.Directory
             Debug.WriteLine(e.GetException().GetType().Name);
             Debug.WriteLine(e.GetException().Message);
         }
+
+        private void ExportPropertiesFile()
+        {
+            var filepath = $"{Directory}/{ExtraPropertiesFilename}";
+
+            var items = new Dictionary<string, FileExtraProperties.Json>(
+                Pathes.OfType<FileInformationViewModel>()
+                .Select(path => new KeyValuePair<string, FileExtraProperties.Json?>(
+                    path.Name, path.ExtraProperties?.Export()
+                ))
+                .Where(item => item.Value is not null)
+                .Select(item => new KeyValuePair<string, FileExtraProperties.Json>(
+                    item.Key, item.Value!
+                ))
+            );
+
+            if (!items.Any())
+            {
+                if (File.Exists(filepath))
+                    File.Delete(filepath);
+                return;
+            }
+
+            var json = new FileExtraPropertiesList.Json()
+            {
+                SharedProperties = SharedProperties.Export(),
+                Items = items
+            };
+
+            using (var writer = new StreamWriter(new FileStream(filepath, FileMode.Create, FileAccess.Write)))
+            {
+                writer.Write(
+                    JsonConvert.SerializeObject(json, Formatting.Indented)
+                );                
+            }
+        }
+
+        private const string ExtraPropertiesFilename = "_props.json";
 
         private ReactiveProperty<string> _directory = new ReactiveProperty<string>("");
         private FileSystemWatcher? _fileSystemWatcher = null;
