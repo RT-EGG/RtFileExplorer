@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace RtFileExplorer.View.Columns
 {
@@ -55,6 +56,16 @@ namespace RtFileExplorer.View.Columns
                     Converter = new RatingToTextConverter(),
                     ConverterParameter = inRatingNumber,
                 });
+                SetBinding(Button.ForegroundProperty, new Binding()
+                {
+                    Path = inPropertyPath,
+                    Mode = BindingMode.OneWay,
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                    Converter = new RatingToForegroundConverter(),
+                    ConverterParameter = inRatingNumber,
+                });
+                SetValue(Button.BackgroundProperty, Brushes.Transparent);
+                SetValue(Button.BorderBrushProperty, Brushes.Transparent);
                 AddHandler(Button.ClickEvent, new RoutedEventHandler(OnClick));
             }
 
@@ -96,6 +107,26 @@ namespace RtFileExplorer.View.Columns
                     throw new InvalidProgramException();
 
                 return (uint)parameter;
+            }
+        }
+
+        private class RatingToForegroundConverter : IValueConverter
+        {
+            public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+            {
+                if (value is null)
+                    return Brushes.Black;
+
+                if (value is not uint)
+                    throw new InvalidProgramException();
+
+                return (uint)value == 0
+                    ? Brushes.Black : Brushes.Orange;
+            }
+
+            public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+            {
+                throw new NotImplementedException();
             }
         }
     }

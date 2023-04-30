@@ -77,6 +77,7 @@ namespace RtFileExplorer.Model.FileInformation
             DataType = FilePropertyDataType.Integer,
             DisplayText = "評価",
             InitialVisibility = true,
+            InitialWidth = 84,
             IsReadOnly = false,
             IsReordable = true,
             IsResizable = false,
