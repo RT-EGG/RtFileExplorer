@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:RtFileExplorer.View"
              xmlns:utils="clr-namespace:RtFileExplorer.Utils"
              xmlns:ViewModel="clr-namespace:RtFileExplorer.ViewModel.Wpf.Directory;assembly=RtFileExplorer.ViewModel.Wpf"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:Interactivity="clr-namespace:Reactive.Bindings.Interactivity;assembly=ReactiveProperty.WPF"
              xmlns:Custom="clr-namespace:Utility.Wpf.CustomControls;assembly=Utility.Wpf"
              mc:Ignorable="d" 
@@ -41,6 +42,12 @@
             PreviewMouseLeftButtonDown="DataGrid_PreviewMouseLeftButtonDown"
             PreviewKeyDown="DataGrid_PreviewKeyDown"
             CellEditEnding="DataGrid_CellEditEnding"
-        />
+        >
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Sorting">
+                    <Interactivity:EventToReactiveCommand Command="{Binding SortingCommand}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </DataGrid>
     </Grid>
 </UserControl>

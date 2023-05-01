@@ -35,6 +35,7 @@ namespace RtFileExplorer.View.Columns
             }
 
             CellTemplate = new DataTemplate() { VisualTree = panel };
+            SortMemberPath = propertyPath.Path;
         }
 
         public FilePropertyItemType ItemType { get; }

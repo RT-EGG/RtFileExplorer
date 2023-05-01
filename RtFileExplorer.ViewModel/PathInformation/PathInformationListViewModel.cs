@@ -1,17 +1,21 @@
 ﻿using RtFileExplorer.Model.FileInformation;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Data;
+using System.Windows.Input;
 using Utility;
 
 namespace RtFileExplorer.ViewModel.Wpf.PathInformation
 {
-    public class PathInformationListViewModel : ViewModelBase
+    public partial class PathInformationListViewModel : ViewModelBase
     {
         public PathInformationListViewModel()
         {
+            SortingCommand = new SortingCommandClass(this);
+
             _collectionViewSource.Source = _pathes;
             _collectionViewSource.IsLiveSortingRequested = true;
             _collectionViewSource.IsLiveFilteringRequested = true;
@@ -28,7 +32,11 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
 
                 _columns.Add(column);
             }
+
+            ChangeSort(nameof(PathInformationViewModel.Name), ListSortDirection.Ascending);
         }
+
+        public ICommand SortingCommand { get; }
 
         public void AddPathInformation(PathInformationViewModel inValue)
             => _pathes.Add(inValue);
@@ -55,5 +63,7 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
         private Utility.ReactiveCollection<PathInformationViewModel> _pathes = new Utility.ReactiveCollection<PathInformationViewModel>();
         private CollectionViewSource _collectionViewSource = new CollectionViewSource();
         private IList<PathInformationColumnViewModel> _columns = new List<PathInformationColumnViewModel>();
+        private SortDescription? _sortDescription = null;
+        private IComparer? _customSortComparer = null;
     }
 }

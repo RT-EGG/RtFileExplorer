@@ -60,6 +60,14 @@ namespace RtFileExplorer.View.Columns
                     Mode = BindingMode.OneWay,
                     UpdateSourceTrigger= UpdateSourceTrigger.PropertyChanged
                 });
+
+                BindingOperations.SetBinding(result, DataGridColumn.SortDirectionProperty,
+                    new Binding(nameof(PathInformationColumnViewModel.Sorting))
+                {
+                    Source = viewModel,
+                    Mode = BindingMode.OneWay,
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+                });
             }
 
             return result;

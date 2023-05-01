@@ -1,6 +1,4 @@
-﻿using RtFileExplorer.Model.ValueConverter;
-
-namespace RtFileExplorer.Model.FileInformation
+﻿namespace RtFileExplorer.Model.FileInformation
 {
     public class FilePropertyAttribute : Attribute
     {

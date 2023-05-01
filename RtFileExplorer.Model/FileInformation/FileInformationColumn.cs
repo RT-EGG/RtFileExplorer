@@ -11,6 +11,7 @@ namespace RtFileExplorer.Model.FileInformation
 
             Width = new ReactiveProperty<double>(att.InitialWidth);
             IsVisible = new ReactiveProperty<bool>(att.InitialVisibility);
+            Sorting = new ReactiveProperty<SortDirection?>(initialValue: null);
         }
 
         public JsonFileInformationColumn Export()
@@ -27,7 +28,14 @@ namespace RtFileExplorer.Model.FileInformation
         }
 
         public readonly FilePropertyItemType PropertyItemType;
-        public readonly IReactiveProperty<double> Width;
-        public readonly IReactiveProperty<bool> IsVisible;
+        public IReactiveProperty<double> Width { get; }
+        public IReactiveProperty<bool> IsVisible { get; }
+        public IReactiveProperty<SortDirection?> Sorting { get; }
+
+        public enum SortDirection
+        {
+            Ascending,
+            Descending
+        }
     }
 }
