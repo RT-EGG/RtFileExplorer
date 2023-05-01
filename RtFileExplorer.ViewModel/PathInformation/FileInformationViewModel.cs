@@ -45,7 +45,7 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
             set => _extraProperties.Rating.Value = value; 
         }
 
-        public FileExtraProperties? ExtraProperties => _extraProperties;
+        public FileExtraProperties ExtraProperties => _extraProperties;
 
         protected override bool ChangePath(string inPath)
         {

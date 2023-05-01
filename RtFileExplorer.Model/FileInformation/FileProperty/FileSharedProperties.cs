@@ -8,6 +8,12 @@ namespace RtFileExplorer.Model.FileInformation.FileProperty
         public Utility.ReactiveCollection<FileAuthor> Authors { get; } = new Utility.ReactiveCollection<FileAuthor>();
         public Utility.ReactiveCollection<FileTag> Tags { get; } = new Utility.ReactiveCollection<FileTag>();
 
+        public void Initialize()
+        {
+            Authors.Clear();
+            Tags.Clear();
+        }
+
         public Json Export()
             => new Json
             {
@@ -17,12 +23,12 @@ namespace RtFileExplorer.Model.FileInformation.FileProperty
 
         public void ImportFrom(Json inJson)
         {
-            Authors.Clear();
+            Initialize();
+
             inJson.Authors
                 .Select(author => FileAuthor.FromJson(author))
                 .ForEach(author => Authors.Add(author));
 
-            Tags.Clear();
             inJson.Tags
                 .Select(tag => FileTag.FromJson(tag))
                 .ForEach(tag => Tags.Add(tag));

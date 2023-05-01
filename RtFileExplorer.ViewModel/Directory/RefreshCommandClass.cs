@@ -1,4 +1,7 @@
-﻿using RtFileExplorer.ViewModel.Wpf.PathInformation;
+﻿using Newtonsoft.Json;
+using RtFileExplorer.Model.FileInformation.FileProperty;
+using RtFileExplorer.ViewModel.Wpf.PathInformation;
+using System.IO;
 using System.Linq;
 using Utility;
 
@@ -9,6 +12,20 @@ namespace RtFileExplorer.ViewModel.Wpf.Directory
         private void Refresh()
         {
             ClearPathes();
+
+            var propFilepath = ExtraPropertiesFilepath;
+            var exProps = new FileExtraPropertiesList.Json();
+            if (File.Exists(propFilepath))
+            {
+                using (var reader = new StreamReader(new FileStream(propFilepath, FileMode.Open, FileAccess.Read)))
+                {
+                    exProps = JsonConvert.DeserializeObject<FileExtraPropertiesList.Json>(reader.ReadToEnd());
+                }
+            }
+
+            SharedProperties.Initialize();
+            SharedProperties.ImportFrom(exProps!.SharedProperties);
+
             if (string.IsNullOrEmpty(Directory))
             {
                 // PC表示（ドライブリスト）
@@ -25,10 +42,18 @@ namespace RtFileExplorer.ViewModel.Wpf.Directory
                     .Where(directory => System.IO.Directory.Exists(directory))
                     .ForEach(directory => AddPathInformation(new DirectoryInformationViewModel(directory.EnsureFileSystemPath())));
                 System.IO.Directory.GetFiles(Directory)
-                    .Where(f => System.IO.File.Exists(f))
+                    .Where(f => File.Exists(f))
                     .ForEach(f => AddPathInformation(new FileInformationViewModel(this, f.EnsureFileSystemPath())));
 
                 _fileSystemWatcher = CreateNewWatcher(Directory);
+            }
+
+            foreach (var file in Pathes.OfType<FileInformationViewModel>())
+            {
+                if (exProps.Items.TryGetValue(file.Name, out var props))
+                {
+                    file.ExtraProperties.ImportFrom(props);
+                }
             }
         }
 

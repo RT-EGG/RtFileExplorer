@@ -131,7 +131,7 @@ namespace RtFileExplorer.ViewModel.Wpf.Directory
 
         private void ExportPropertiesFile()
         {
-            var filepath = $"{Directory}/{ExtraPropertiesFilename}";
+            var filepath = ExtraPropertiesFilepath;
 
             var items = new Dictionary<string, FileExtraProperties.Json>(
                 Pathes.OfType<FileInformationViewModel>()
@@ -166,6 +166,7 @@ namespace RtFileExplorer.ViewModel.Wpf.Directory
         }
 
         private const string ExtraPropertiesFilename = "_props.json";
+        private string ExtraPropertiesFilepath => $"{Directory}/{ExtraPropertiesFilename}";
 
         private ReactiveProperty<string> _directory = new ReactiveProperty<string>("");
         private FileSystemWatcher? _fileSystemWatcher = null;
