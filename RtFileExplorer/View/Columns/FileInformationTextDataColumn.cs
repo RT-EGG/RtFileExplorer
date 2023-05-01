@@ -11,7 +11,7 @@ namespace RtFileExplorer.View.Columns
         public FileInformationTextDataColumn(FilePropertyItemType inType)
         {
             ItemType = inType;
-            Binding = FileInformationDataColumn.CreateBinding(inType, System.Windows.Data.UpdateSourceTrigger.Explicit);            
+            Binding = FileInformationDataColumn.CreateBinding(inType, UpdateSourceTrigger.Explicit);            
         }
 
         public FilePropertyItemType ItemType { get; }
