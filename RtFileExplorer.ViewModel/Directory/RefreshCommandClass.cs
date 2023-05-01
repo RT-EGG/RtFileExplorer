@@ -55,6 +55,8 @@ namespace RtFileExplorer.ViewModel.Wpf.Directory
                     file.ExtraProperties.ImportFrom(props);
                 }
             }
+
+            FirePropertyChanged(nameof(PathCountText));
         }
 
         class RefreshCommandClass : CommandBase<DirectoryViewModel>

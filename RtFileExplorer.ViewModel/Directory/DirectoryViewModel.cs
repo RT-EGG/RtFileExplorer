@@ -51,6 +51,23 @@ namespace RtFileExplorer.ViewModel.Wpf.Directory
             set => Directory = string.Join("/", value);
         }
 
+        public string PathCountText
+        {
+            get
+            {
+                var fileCount = Pathes.Count(path => path is FileInformationViewModel);
+                var directoryCount = Pathes.Count(path => path is DirectoryInformationViewModel);
+
+                var result = "";
+                if (fileCount > 0)
+                    result += $"{fileCount} 個のファイル ";
+                if (directoryCount > 0)
+                    result += $"{directoryCount} 個のフォルダ";
+
+                return result;
+            }
+        }
+
         public ICommand OpenPathCommand { get; }
         public ICommand RefreshCommand { get; }
         internal FileSharedProperties SharedProperties { get; } = new FileSharedProperties();
@@ -89,6 +106,7 @@ namespace RtFileExplorer.ViewModel.Wpf.Directory
                 throw new InvalidProgramException();
 
             RemovePathInformation(e.FullPath.EnsureFileSystemPath());
+            FirePropertyChanged(nameof(PathCountText));
         }
 
         private void OnFileCreated(object sender, FileSystemEventArgs e)
@@ -109,6 +127,7 @@ namespace RtFileExplorer.ViewModel.Wpf.Directory
             {
                 throw new InvalidProgramException();
             }
+            FirePropertyChanged(nameof(PathCountText));
         }
 
         private void OnFileChanged(object sender, FileSystemEventArgs e)

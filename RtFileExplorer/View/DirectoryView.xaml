@@ -23,6 +23,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="1*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Custom:DirectoryAddressBar
             Items="{Binding DirectoryPathes, Mode=TwoWay}"
@@ -49,5 +50,10 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </DataGrid>
+        <StatusBar
+            Grid.Row="2"
+        >
+            <TextBlock Text="{Binding PathCountText}"/>
+        </StatusBar>
     </Grid>
 </UserControl>
