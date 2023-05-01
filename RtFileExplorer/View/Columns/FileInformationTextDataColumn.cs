@@ -1,6 +1,8 @@
 ﻿using RtFileExplorer.Model.FileInformation;
+using RtFileExplorer.ViewModel.Wpf.PathInformation;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace RtFileExplorer.View.Columns
 {
@@ -18,9 +20,9 @@ namespace RtFileExplorer.View.Columns
         {
             var element = base.GenerateElement(cell, dataItem);
 
-            if (element is TextBox textBox)
+            if (element is TextBlock textBlock)
             {
-                textBox.LostFocus += (sender, e) =>
+                textBlock.LostFocus += (sender, e) =>
                 {
                     var textBox = sender as TextBox;
                     if (textBox != null)
@@ -32,6 +34,15 @@ namespace RtFileExplorer.View.Columns
                         }
                     }
                 };
+
+                textBlock.SetBinding(TextBox.VisibilityProperty, new Binding
+                {
+                    Path = new PropertyPath(string.Empty),
+                    Mode = BindingMode.OneWay,
+                    UpdateSourceTrigger = UpdateSourceTrigger.Explicit,
+                    Converter = new FileInformationDataColumn.SupportedPathConverter(),
+                    ConverterParameter = PathInformationColumnViewModel.GetPropertyName(ItemType),
+                });
             }
 
             return element;
