@@ -7,11 +7,32 @@
         xmlns:view="clr-namespace:RtFileExplorer.View"
         xmlns:ViewModel="clr-namespace:RtFileExplorer.ViewModel.Wpf.Application;assembly=RtFileExplorer.ViewModel.Wpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800"
+        Closed="Window_Closed"
+        >
     <Window.DataContext>
         <ViewModel:ApplicationViewModel />
     </Window.DataContext>    
     <Grid>
-        <view:DirectoryView />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Menu
+            Grid.Row="0"
+        >
+            <MenuItem Header="ファイル">
+                
+            </MenuItem>
+            <MenuItem Header="設定">
+                <MenuItem 
+                    Header="データフォルダを開く"
+                    Command="{Binding ShowDataDirectoryInExplorerCommand}"
+                />
+            </MenuItem>
+        </Menu>
+        <view:DirectoryView 
+            Grid.Row="1"
+        />
     </Grid>
 </Window>

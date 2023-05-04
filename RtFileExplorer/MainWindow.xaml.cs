@@ -51,5 +51,13 @@ namespace RtFileExplorer
 
             this.ContentRendered -= MainWindow_ContentRendered;
         }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            if (DataContext is IDisposable disposable)
+            {
+                disposable.Dispose();
+            }
+        }
     }
 }
