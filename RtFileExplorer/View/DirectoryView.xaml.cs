@@ -95,10 +95,33 @@ namespace RtFileExplorer.View
 
         private void DataGrid_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (!(sender is DataGrid grid))
+            var row = DataGrid.SelectedItem;
+            if (!(row is PathInformationViewModel rowViewModel))
                 return;
 
-            
+            if (!(DataContext is DirectoryViewModel viewModel))
+                return;
+
+            e.Handled = true;
+            switch (e.Key)
+            {
+                case Key.Enter:
+                    if (DataGrid.GetIsEditing())
+                    {
+                        DataGrid.CommitEdit();
+                    }
+                    else
+                    {
+                        var parameter = new object[] { rowViewModel };
+                        if (viewModel.OpenPathCommand.CanExecute(parameter))
+                            viewModel.OpenPathCommand.Execute(parameter);
+                    }
+                    break;
+
+                default:
+                    e.Handled = false;
+                    break;
+            }
         }
 
         private void DataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
@@ -131,19 +154,6 @@ namespace RtFileExplorer.View
             e.Handled = true;
             switch (e.Key)
             {
-                case Key.Enter:
-                    if (DataGrid.GetIsEditing())
-                    {
-                        DataGrid.CommitEdit();
-                    }
-                    else
-                    {
-                        var parameter = new object[] { rowViewModel };
-                        if (viewModel.OpenPathCommand.CanExecute(parameter))
-                            viewModel.OpenPathCommand.Execute(parameter);
-                    }
-                    break;
-
                 case Key.F2:
                     if (rowViewModel.IsNameChangeable)
                     {
