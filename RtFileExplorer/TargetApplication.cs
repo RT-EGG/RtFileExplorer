@@ -7,22 +7,24 @@ namespace RtFileExplorer
 {
     internal class TargetApplication : ITargetApplication
     {
-        public TargetApplication(Window inMainWindow)
+        public TargetApplication(Application inApplication)
         {
-            _mainWindow = inMainWindow;
+            _application = inApplication;
+            _application.ShutdownMode = ShutdownMode.OnLastWindowClose;
         }
 
         public Dispatcher UiDispatcher => Application.Current.Dispatcher;
         public IEnumerable<FrameworkElement> FrameworkElements => _frameworkElements;
 
         public void QuitApplication()
-            => _mainWindow.Close();
+            => _application.Shutdown(0);
 
         public void AddFrameworkElement(FrameworkElement inElement)
         {
             _frameworkElements.Add(inElement);
             OnAfterFrameworkElementAdd?.Invoke(inElement);
         }
+
         public void RemoveFrameworkElement(FrameworkElement inElement)
         {
             OnBeforeFrameworkElementRemove?.Invoke(inElement);
@@ -32,15 +34,15 @@ namespace RtFileExplorer
         public event FrameworkElementNotifyAction? OnAfterFrameworkElementAdd;
         public event FrameworkElementNotifyAction? OnBeforeFrameworkElementRemove;
 
-        private Window _mainWindow;
-
-        public static void InitializeApplication(Window inMainWindow)
+        public static void InitializeApplication(Application inApplication)
         {
-            _instance = new TargetApplication(inMainWindow);
+            _instance = new TargetApplication(inApplication);
+            TargetApplicationBinder.InitializeForApplication(Instance);
         }
         public static TargetApplication Instance => _instance!;
         private static TargetApplication? _instance = null;
 
+        private readonly Application _application;
         private List<FrameworkElement> _frameworkElements = new List<FrameworkElement>();
     }
 }

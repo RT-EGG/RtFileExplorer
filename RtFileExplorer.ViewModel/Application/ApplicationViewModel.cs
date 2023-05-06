@@ -9,8 +9,6 @@ namespace RtFileExplorer.ViewModel.Wpf.Application
     {
         public ApplicationViewModel()
         {
-            ShowDataDirectoryInExplorerCommand = new ShowDataDirectoryInExplorerCommandClass(this);
-
             BackgroundTaskQueue.Instance.Start();
 
             _loggerThread = Logger.Instance.StartWriteThread();
@@ -26,8 +24,6 @@ namespace RtFileExplorer.ViewModel.Wpf.Application
                 _loggerThread = null;
             }
         }
-
-        public ICommand ShowDataDirectoryInExplorerCommand { get; }
 
         public static string ApplicationDataDirectoryPath
             => Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "RT-EGG", "RtFileExplorer");

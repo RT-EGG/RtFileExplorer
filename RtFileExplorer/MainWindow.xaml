@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RtFileExplorer"
         xmlns:view="clr-namespace:RtFileExplorer.View"
-        xmlns:ViewModel="clr-namespace:RtFileExplorer.ViewModel.Wpf.Application;assembly=RtFileExplorer.ViewModel.Wpf"
+        xmlns:ViewModel="clr-namespace:RtFileExplorer.ViewModel.Wpf.MainWindow;assembly=RtFileExplorer.ViewModel.Wpf"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
         Closed="Window_Closed"
         >
     <Window.DataContext>
-        <ViewModel:ApplicationViewModel />
+        <ViewModel:MainWindowViewModel/>
     </Window.DataContext>    
     <Grid>
         <Grid.RowDefinitions>

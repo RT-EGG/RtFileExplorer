@@ -1,4 +1,5 @@
 ﻿using RtFileExplorer.ViewModel.Wpf.Application;
+using RtFileExplorer.ViewModel.Wpf.MainWindow;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -28,9 +29,6 @@ namespace RtFileExplorer
 
             if (!DesignerProperties.GetIsInDesignMode(this))
             {
-                TargetApplication.InitializeApplication(this);
-                ViewModel.Wpf.TargetApplicationBinder.InitializeForApplication(TargetApplication.Instance!);
-
                 this.Loaded += (_, _) => TargetApplication.Instance.AddFrameworkElement(this);
                 this.Unloaded += (_, _) =>
                 {
@@ -45,10 +43,6 @@ namespace RtFileExplorer
 
         private void MainWindow_ContentRendered(object? sender, EventArgs e)
         {
-            var model = new Model.Application.Application();
-            var viewmodel = DataContext as ApplicationViewModel;
-            viewmodel?.BindModel(model);
-
             this.ContentRendered -= MainWindow_ContentRendered;
         }
 
