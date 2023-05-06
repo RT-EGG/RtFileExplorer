@@ -98,12 +98,35 @@ namespace RtFileExplorer.View
             if (!(sender is DataGrid grid))
                 return;
 
-            var row = grid.SelectedItem;
+            
+        }
+
+        private void DataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            switch (e.EditAction)
+            {
+                case DataGridEditAction.Commit:
+                    if (e.EditingElement is TextBox textBox)
+                    {
+                        var expression = textBox.GetBindingExpression(TextBox.TextProperty);
+                        if (expression is not null)
+                            expression.UpdateSource();
+                    }
+
+                    break;
+            }
+        }
+
+        private void UserControl_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            var row = DataGrid.SelectedItem;
             if (!(row is PathInformationViewModel rowViewModel))
                 return;
 
             if (!(DataContext is DirectoryViewModel viewModel))
                 return;
+
+            bool isCtrlDown = (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
 
             e.Handled = true;
             switch (e.Key)
@@ -124,7 +147,7 @@ namespace RtFileExplorer.View
                 case Key.F2:
                     if (rowViewModel.IsNameChangeable)
                     {
-                        var column = grid.Columns
+                        var column = DataGrid.Columns
                                     .Where(c => c is IFileInformationDataColumn)
                                     .FirstOrDefault(c =>
                                         (c as IFileInformationDataColumn)!.ItemType == FilePropertyItemType.Name
@@ -132,8 +155,8 @@ namespace RtFileExplorer.View
                         if (column is null)
                             break;
 
-                        grid.CurrentCell = new DataGridCellInfo(row, column);
-                        grid.BeginEdit();
+                        DataGrid.CurrentCell = new DataGridCellInfo(row, column);
+                        DataGrid.BeginEdit();
                     }
                     break;
 
@@ -142,24 +165,13 @@ namespace RtFileExplorer.View
                         viewModel.RefreshCommand.Execute(null);
                     break;
 
+                case Key.F when isCtrlDown:
+                    if (viewModel.OpenFilterViewCommand.CanExecute(null))
+                        viewModel.OpenFilterViewCommand.Execute(null);
+                    break;
+
                 default:
                     e.Handled = false;
-                    break;
-            }
-        }
-
-        private void DataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
-        {
-            switch (e.EditAction)
-            {
-                case DataGridEditAction.Commit:
-                    if (e.EditingElement is TextBox textBox)
-                    {
-                        var expression = textBox.GetBindingExpression(TextBox.TextProperty);
-                        if (expression is not null)
-                            expression.UpdateSource();
-                    }
-
                     break;
             }
         }

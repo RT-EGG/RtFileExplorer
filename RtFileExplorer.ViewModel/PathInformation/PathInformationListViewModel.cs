@@ -1,4 +1,5 @@
 ﻿using RtFileExplorer.Model.FileInformation;
+using RtFileExplorer.ViewModel.Wpf.PathInformation.Filter;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,6 +16,8 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
         public PathInformationListViewModel()
         {
             SortingCommand = new SortingCommandClass(this);
+            OpenFilterViewCommand = new OpenFilterViewCommandClass(this);
+            FilterViewModel = new PathInformationFilterViewModel(_collectionViewSource);
 
             _collectionViewSource.Source = _pathes;
             _collectionViewSource.IsLiveSortingRequested = true;
@@ -37,6 +40,8 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
         }
 
         public ICommand SortingCommand { get; }
+        public ICommand OpenFilterViewCommand { get; }
+        public PathInformationFilterViewModel FilterViewModel { get; }
 
         public void AddPathInformation(PathInformationViewModel inValue)
             => _pathes.Add(inValue);
@@ -48,6 +53,23 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
             => _pathes.Clear();
 
         public IEnumerable<PathInformationViewModel> Pathes => _pathes;
+
+        public string PathCountText
+        {
+            get
+            {
+                var fileCount = Pathes.Count(path => path is FileInformationViewModel);
+                var directoryCount = Pathes.Count(path => path is DirectoryInformationViewModel);
+
+                var result = "";
+                if (fileCount > 0)
+                    result += $"{fileCount} 個のファイル ";
+                if (directoryCount > 0)
+                    result += $"{directoryCount} 個のフォルダ";
+
+                return result;
+            }
+        }
 
         public bool TryGetFirst(Predicate<PathInformationViewModel> inPredication, out PathInformationViewModel? outPath)
         {
