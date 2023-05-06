@@ -35,13 +35,14 @@ namespace RtFileExplorer.ViewModel.Wpf.Directory
             }
             else
             {
-                if (!System.IO.Directory.Exists(Directory))
+                var directory = Directory.TrimEnd('\\') + '\\';
+                if (!System.IO.Directory.Exists(directory))
                     return;
 
-                System.IO.Directory.GetDirectories(Directory)
-                    .Where(directory => System.IO.Directory.Exists(directory))
-                    .ForEach(directory => AddPathInformation(new DirectoryInformationViewModel(directory.EnsureFileSystemPath())));
-                System.IO.Directory.GetFiles(Directory)
+                System.IO.Directory.GetDirectories(directory)
+                    .Where(d => System.IO.Directory.Exists(d))
+                    .ForEach(d => AddPathInformation(new DirectoryInformationViewModel(d.EnsureFileSystemPath())));
+                System.IO.Directory.GetFiles(directory)
                     .Where(f => File.Exists(f))
                     .ForEach(f => AddPathInformation(new FileInformationViewModel(this, f.EnsureFileSystemPath())));
 
