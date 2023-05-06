@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RtFileExplorer.ViewModel.Wpf.Application;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,11 +14,18 @@ namespace RtFileExplorer
     /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            _viewModel = new ApplicationViewModel();
+        }
+
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
             TargetApplication.InitializeApplication(this);
         }
+
+        private ApplicationViewModel _viewModel;
     }
 }
