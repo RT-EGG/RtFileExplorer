@@ -5,6 +5,13 @@ using System.Windows.Media.Imaging;
 
 namespace RtFileExplorer.ViewModel.Wpf.PathInformation
 {
+    public enum PathType
+    {
+        Drive,
+        Directory,
+        File
+    }
+
     public abstract class PathInformationViewModel : ViewModelBase
     {
         public PathInformationViewModel(string inPath)
@@ -33,6 +40,7 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
             };
         }
 
+        public abstract PathType PathType { get; }
         public BitmapSource? Icon => _icon.Value;
         public string Path
         {

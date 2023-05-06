@@ -1,7 +1,6 @@
 ﻿using RtFileExplorer.Model.FileInformation;
 using RtFileExplorer.ViewModel.Wpf.PathInformation.Filter;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -86,6 +85,5 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
         private CollectionViewSource _collectionViewSource = new CollectionViewSource();
         private IList<PathInformationColumnViewModel> _columns = new List<PathInformationColumnViewModel>();
         private SortDescription? _sortDescription = null;
-        private IComparer? _customSortComparer = null;
     }
 }

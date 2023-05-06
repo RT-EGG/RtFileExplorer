@@ -26,6 +26,8 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
             FileExecutor.Instance.Execute(Path);
         }
 
+        public override PathType PathType => PathType.File;
+
         public override bool GetIsSupported(string inPropertyName)
         {
             return inPropertyName switch

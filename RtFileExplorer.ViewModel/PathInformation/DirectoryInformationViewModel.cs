@@ -12,6 +12,8 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
             UpdateInformation();
         }
 
+        public override PathType PathType => PathType.Directory;
+
         protected override bool ChangePath(string inPath)
         {
             if (System.IO.Directory.Exists(inPath))

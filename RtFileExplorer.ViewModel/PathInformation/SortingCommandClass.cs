@@ -1,5 +1,6 @@
 ﻿using RtFileExplorer.Model.FileInformation;
 using System;
+using System.Collections;
 using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -24,7 +25,6 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
         {
             _sortDescription = inDirection is null 
                 ? null : new SortDescription(inPropertyName, inDirection.Value);
-            _customSortComparer = null;
 
             ApplySort();
         }
@@ -32,8 +32,13 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
         private void ApplySort()
         {
             _collectionViewSource.SortDescriptions.Clear();
-            if (_collectionViewSource.View is ListCollectionView view && _customSortComparer is not null)
-                view.CustomSort = _customSortComparer;
+            // ドライブ/フォルダ/ファイルでのソートを第一に設定する
+            _collectionViewSource.SortDescriptions.Add(
+                new SortDescription(
+                    nameof(PathInformationViewModel.PathType),
+                    _sortDescription is null 
+                        ? ListSortDirection.Ascending : _sortDescription.Value.Direction)
+            );
             if (_sortDescription is not null)
                 _collectionViewSource.SortDescriptions.Add(_sortDescription.Value);
             CollectionView.Refresh();

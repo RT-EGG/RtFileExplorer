@@ -10,6 +10,7 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
 
         }
 
+        public override PathType PathType => PathType.Drive;
         public override bool IsNameChangeable => false;
 
         protected override string GetFileName(string inPath) => inPath;
