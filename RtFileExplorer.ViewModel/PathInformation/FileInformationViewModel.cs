@@ -24,6 +24,10 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
         public void Execute()
         {
             FileExecutor.Instance.Execute(Path);
+
+            var accessTime = DateTime.Now;
+            File.SetLastAccessTime(Path, accessTime);
+            LastAccessTime = accessTime;
         }
 
         public override PathType PathType => PathType.File;

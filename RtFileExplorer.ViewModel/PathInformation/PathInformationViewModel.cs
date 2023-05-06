@@ -79,7 +79,11 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
         public virtual long? Size => null;
         public DateTime CreationTime => _creationTime.Value;
         public DateTime LastWriteTime => _lastWriteTime.Value;
-        public DateTime LastAccessTime => _lastAccessTime.Value;
+        public DateTime LastAccessTime
+        { 
+            get => _lastAccessTime.Value;
+            protected set => _lastAccessTime.Value = value;
+        }
 
         public virtual uint? Rating
         { get => null; set { } }
