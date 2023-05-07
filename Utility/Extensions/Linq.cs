@@ -1,4 +1,6 @@
-﻿namespace Utility
+﻿using System.Collections;
+
+namespace Utility
 {
     public static class Linq
     {
@@ -6,6 +8,13 @@
         {
             int i = 0;
             foreach (T item in inItems)
+                yield return (i++, item);
+        }
+
+        public static IEnumerable<(int, object)> Indexed(this IEnumerable inItems)
+        {
+            int i = 0;
+            foreach (var item in inItems)
                 yield return (i++, item);
         }
 
@@ -74,6 +83,21 @@
         {
             foreach (var item in inItems)
                 item?.Dispose();
+        }
+
+        public static bool TryGetFirst<T>(this IEnumerable<T> inItems, Predicate<T> inPredicate, out T? outResult)
+        {
+            outResult = default;
+            foreach (var item in inItems)
+            {
+                if (inPredicate(item))
+                {
+                    outResult = item;
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

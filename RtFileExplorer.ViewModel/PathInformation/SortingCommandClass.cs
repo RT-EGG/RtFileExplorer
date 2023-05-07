@@ -1,9 +1,7 @@
 ﻿using RtFileExplorer.Model.FileInformation;
 using System;
-using System.Collections;
 using System.ComponentModel;
 using System.Windows.Controls;
-using System.Windows.Data;
 
 namespace RtFileExplorer.ViewModel.Wpf.PathInformation
 {

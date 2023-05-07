@@ -36,16 +36,22 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
         {
             get => Model!.Sorting.Value switch
             {
-                FileInformationColumn.SortDirection.Ascending => ListSortDirection.Ascending,
-                FileInformationColumn.SortDirection.Descending => ListSortDirection.Descending,
+                SortDirection.Ascending => ListSortDirection.Ascending,
+                SortDirection.Descending => ListSortDirection.Descending,
                 _ => null,
             };
             set => Model!.Sorting.Value = value switch
             {
-                ListSortDirection.Ascending => FileInformationColumn.SortDirection.Ascending,
-                ListSortDirection.Descending => FileInformationColumn.SortDirection.Descending,
+                ListSortDirection.Ascending => SortDirection.Ascending,
+                ListSortDirection.Descending => SortDirection.Descending,
                 _ => null,
             };
+        }
+
+        public int DisplayIndex
+        {
+            get => Model!.DisplayIndex.Value;
+            set => Model!.DisplayIndex.Value = value;
         }
 
         public static string GetPropertyName(FilePropertyItemType inType)
@@ -84,6 +90,7 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
                 RegisterPropertyNotification(inModel.Width, nameof(Width));
                 RegisterPropertyNotification(inModel.IsVisible, nameof(Visibility), nameof(IsVisible));
                 RegisterPropertyNotification(inModel.Sorting, nameof(Sorting));
+                RegisterPropertyNotification(inModel.DisplayIndex, nameof(DisplayIndex));
             }
         }
 

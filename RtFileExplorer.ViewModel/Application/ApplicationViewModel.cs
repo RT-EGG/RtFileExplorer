@@ -26,6 +26,11 @@ namespace RtFileExplorer.ViewModel.Wpf.Application
 
         public static string ApplicationDataDirectoryPath
             => Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "RT-EGG", "RtFileExplorer");
+        public static void EnsureApplicationDataDirectory()
+        {
+            if (!System.IO.Directory.Exists(ApplicationDataDirectoryPath))
+                System.IO.Directory.CreateDirectory(ApplicationDataDirectoryPath);
+        }
 
         private IDisposable? _loggerThread;
     }

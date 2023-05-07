@@ -1,10 +1,12 @@
 ﻿using RtFileExplorer.Model.ValueConverter;
 using System.Reflection;
+using System.Runtime.Serialization;
 
 namespace RtFileExplorer.Model.FileInformation
 {
     public enum FilePropertyItemType
     {
+        [EnumMember(Value = "icon")]
         [FileProperty(
             DataType = FilePropertyDataType.Icon,
             DisplayText = "",
@@ -17,6 +19,7 @@ namespace RtFileExplorer.Model.FileInformation
         )]
         Icon,
 
+        [EnumMember(Value = "name")]
         [FileProperty(
             DataType = FilePropertyDataType.String,             
             DisplayText = "名前",
@@ -27,6 +30,7 @@ namespace RtFileExplorer.Model.FileInformation
         )]
         Name,
 
+        [EnumMember(Value = "size")]
         [FileProperty(
             DataType = FilePropertyDataType.Integer,
             DisplayText = "サイズ",
@@ -37,6 +41,7 @@ namespace RtFileExplorer.Model.FileInformation
         )]
         Size,
 
+        [EnumMember(Value = "creation_date")]
         [FileProperty(
             DataType = FilePropertyDataType.DateTime,
             DisplayText = "作成日時",
@@ -49,6 +54,7 @@ namespace RtFileExplorer.Model.FileInformation
         )]
         CreationDate,
 
+        [EnumMember(Value = "last_update_date")]
         [FileProperty(
             DataType = FilePropertyDataType.DateTime,
             DisplayText = "更新日時",
@@ -61,6 +67,7 @@ namespace RtFileExplorer.Model.FileInformation
         )]
         LastWriteDate,
 
+        [EnumMember(Value = "last_access_date")]
         [FileProperty(
             DataType = FilePropertyDataType.DateTime,
             DisplayText = "アクセス日時",
@@ -73,6 +80,7 @@ namespace RtFileExplorer.Model.FileInformation
         )]
         LastAccessDate,
 
+        [EnumMember(Value = "rating")]
         [FileProperty(
             DataType = FilePropertyDataType.Integer,
             DisplayText = "評価",

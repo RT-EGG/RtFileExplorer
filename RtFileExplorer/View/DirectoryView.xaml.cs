@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -30,6 +31,41 @@ namespace RtFileExplorer.View
             InitializeComponent();
             
             VerifyColumns(DataContext);
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            foreach (var column in DataGrid.Columns)
+            {
+                var header = column.GetHeader();
+                if (header is not null)
+                {
+                    header.PreviewMouseUp += ColumnHeader_PreviewMouseUp;
+                }
+            }
+        }
+
+        private void ColumnHeader_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (!(DataContext is PathInformationListViewModel viewModel))
+                return;
+
+            switch (e.ChangedButton)
+            {
+                case MouseButton.Left:
+                    if (viewModel.ColumnPropertyChagedCommand.CanExecute(e))
+                        viewModel.ColumnPropertyChagedCommand.Execute(e);
+                    break;
+            }
+        }
+
+        private void DataGrid_ColumnHeaderDragCompleted(object sender, DragCompletedEventArgs e)
+        {
+            if (!(DataContext is PathInformationListViewModel viewModel))
+                return;
+
+            if (viewModel.ColumnPropertyChagedCommand.CanExecute(e))
+                viewModel.ColumnPropertyChagedCommand.Execute(e);
         }
 
         private void UserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)

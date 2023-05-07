@@ -1,7 +1,16 @@
 ﻿using Reactive.Bindings;
+using System.Runtime.Serialization;
 
 namespace RtFileExplorer.Model.FileInformation
 {
+    public enum SortDirection
+    {
+        [EnumMember(Value = "ascending")]
+        Ascending,
+        [EnumMember(Value = "decending")]
+        Descending
+    }
+
     public class FileInformationColumn
     {
         public FileInformationColumn(FilePropertyItemType inType)
@@ -12,6 +21,7 @@ namespace RtFileExplorer.Model.FileInformation
             Width = new ReactiveProperty<double>(att.InitialWidth);
             IsVisible = new ReactiveProperty<bool>(att.InitialVisibility);
             Sorting = new ReactiveProperty<SortDirection?>(initialValue: null);
+            DisplayIndex = new ReactiveProperty<int>(initialValue: -1);
         }
 
         public JsonFileInformationColumn Export()
@@ -31,11 +41,6 @@ namespace RtFileExplorer.Model.FileInformation
         public IReactiveProperty<double> Width { get; }
         public IReactiveProperty<bool> IsVisible { get; }
         public IReactiveProperty<SortDirection?> Sorting { get; }
-
-        public enum SortDirection
-        {
-            Ascending,
-            Descending
-        }
+        public IReactiveProperty<int> DisplayIndex { get; }
     }
 }

@@ -5,6 +5,7 @@ using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 
 namespace RtFileExplorer.View.Columns
@@ -40,7 +41,10 @@ namespace RtFileExplorer.View.Columns
             result.IsReadOnly = att.IsReadOnly;
             result.CanUserReorder = att.IsReordable;
             result.CanUserResize = att.IsResizable;
-            result.Header = att.DisplayText;
+            result.Header = new DataGridColumnHeader
+            {
+                Content = att.DisplayText,
+            };
 
             var viewModel = inParentViewModel.GetColumn(inType);
             if (viewModel is not null)
@@ -66,6 +70,14 @@ namespace RtFileExplorer.View.Columns
                 {
                     Source = viewModel,
                     Mode = BindingMode.OneWay,
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+                });
+
+                BindingOperations.SetBinding(result, DataGridColumn.DisplayIndexProperty,
+                    new Binding(nameof(PathInformationColumnViewModel.DisplayIndex))
+                {
+                    Source = viewModel,
+                    Mode = BindingMode.TwoWay,
                     UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
                 });
             }
