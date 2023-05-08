@@ -32,6 +32,9 @@ namespace RtFileExplorer.ViewModel.Wpf
             }
         }
 
+        public void PushLog(Exception inException)
+            => PushLog(new LogObject().SetException(inException));
+
         private void WriteLogCore()
         {
             lock (_writeQueue)
@@ -80,6 +83,28 @@ namespace RtFileExplorer.ViewModel.Wpf
             Exception
         }
 
+        public class ExceptionLog
+        {
+            public ExceptionLog(Exception inException)
+            {
+                Type = inException.GetType().Name;
+                Message = inException.Message;
+                StackTrace = inException.StackTrace ?? "";
+            }
+
+            [JsonProperty("type")]
+            public string Type
+            { get; set; } = string.Empty;
+
+            [JsonProperty("message")]
+            public string Message
+            { get; set; } = string.Empty;
+
+            [JsonProperty("stacktrace")]
+            public string StackTrace
+            { get; set; } = string.Empty;
+        }
+
         public class LogObject
         {
             public LogObject(
@@ -90,6 +115,15 @@ namespace RtFileExplorer.ViewModel.Wpf
                 Filepath = inFilePath;
                 LineNumber = inLineNumber;
                 CallerMemberName = inMemberName;
+            }
+
+            public LogObject SetException(Exception inException)
+            {
+                Level = LogLevel.Exception;
+                Message = null;
+                Exception = new ExceptionLog(inException);
+
+                return this;
             }
 
             [JsonProperty("timestamp")]
@@ -112,9 +146,13 @@ namespace RtFileExplorer.ViewModel.Wpf
             public LogLevel Level
             { get; set; }
 
-            [JsonProperty("message")]
-            public string Message
-            { get; set; } = string.Empty;
+            [JsonProperty("message", NullValueHandling = NullValueHandling.Ignore)]
+            public string? Message
+            { get; set; } = null;
+
+            [JsonProperty("exception", NullValueHandling = NullValueHandling.Ignore)]
+            public ExceptionLog? Exception
+            { get; set; } = null;
         }
     }
 }

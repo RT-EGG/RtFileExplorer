@@ -126,10 +126,7 @@ namespace RtFileExplorer.ViewModel.Wpf.Directory
         }
 
         private void OnFileSystemWatcherError(object sender, ErrorEventArgs e)
-        {
-            Debug.WriteLine(e.GetException().GetType().Name);
-            Debug.WriteLine(e.GetException().Message);
-        }
+            => Logger.Instance.PushLog(new Logger.LogObject().SetException(e.GetException()));
 
         private void ExportPropertiesFile()
         {
