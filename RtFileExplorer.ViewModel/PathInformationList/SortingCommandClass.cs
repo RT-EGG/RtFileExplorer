@@ -1,9 +1,10 @@
 ﻿using RtFileExplorer.Model.FileInformation;
+using RtFileExplorer.ViewModel.Wpf.PathInformation;
 using System;
 using System.ComponentModel;
 using System.Windows.Controls;
 
-namespace RtFileExplorer.ViewModel.Wpf.PathInformation
+namespace RtFileExplorer.ViewModel.Wpf.PathInformationList
 {
     public partial class PathInformationListViewModel
     {

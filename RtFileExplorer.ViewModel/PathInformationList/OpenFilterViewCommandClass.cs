@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace RtFileExplorer.ViewModel.Wpf.PathInformation
+namespace RtFileExplorer.ViewModel.Wpf.PathInformationList
 {
     public partial class PathInformationListViewModel
     {

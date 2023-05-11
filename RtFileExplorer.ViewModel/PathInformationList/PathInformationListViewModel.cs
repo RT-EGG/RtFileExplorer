@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using RtFileExplorer.Model.FileInformation;
 using RtFileExplorer.ViewModel.Wpf.Application;
+using RtFileExplorer.ViewModel.Wpf.PathInformation;
 using RtFileExplorer.ViewModel.Wpf.PathInformation.Filter;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using Utility;
 
-namespace RtFileExplorer.ViewModel.Wpf.PathInformation
+namespace RtFileExplorer.ViewModel.Wpf.PathInformationList
 {
     public partial class PathInformationListViewModel : ViewModelBase
     {

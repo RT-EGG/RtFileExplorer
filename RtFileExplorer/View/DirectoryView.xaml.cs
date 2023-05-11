@@ -3,22 +3,16 @@ using RtFileExplorer.View.Components;
 using RtFileExplorer.View.Components.Columns;
 using RtFileExplorer.ViewModel.Wpf.Directory;
 using RtFileExplorer.ViewModel.Wpf.PathInformation;
+using RtFileExplorer.ViewModel.Wpf.PathInformationList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Utility.Wpf.Extensions;
 
 namespace RtFileExplorer.View

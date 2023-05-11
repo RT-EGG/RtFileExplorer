@@ -7,7 +7,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace RtFileExplorer.ViewModel.Wpf.PathInformation
+namespace RtFileExplorer.ViewModel.Wpf.PathInformationList
 {
     public partial class PathInformationListViewModel
     {

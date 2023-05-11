@@ -1,5 +1,5 @@
 ﻿using RtFileExplorer.Model.FileInformation;
-using RtFileExplorer.ViewModel.Wpf.PathInformation;
+using RtFileExplorer.ViewModel.Wpf.PathInformationList;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;

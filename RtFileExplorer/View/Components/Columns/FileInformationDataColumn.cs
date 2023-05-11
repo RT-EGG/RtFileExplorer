@@ -1,6 +1,7 @@
 ﻿using RtFileExplorer.Converter;
 using RtFileExplorer.Model.FileInformation;
 using RtFileExplorer.ViewModel.Wpf.PathInformation;
+using RtFileExplorer.ViewModel.Wpf.PathInformationList;
 using System;
 using System.Globalization;
 using System.Windows;

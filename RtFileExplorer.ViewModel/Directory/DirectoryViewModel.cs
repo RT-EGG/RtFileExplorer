@@ -2,6 +2,7 @@
 using Reactive.Bindings;
 using RtFileExplorer.Model.FileInformation.FileProperty;
 using RtFileExplorer.ViewModel.Wpf.PathInformation;
+using RtFileExplorer.ViewModel.Wpf.PathInformationList;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
