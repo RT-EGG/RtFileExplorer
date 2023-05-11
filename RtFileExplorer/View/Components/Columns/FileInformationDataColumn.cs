@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 
-namespace RtFileExplorer.View.Columns
+namespace RtFileExplorer.View.Components.Columns
 {
     internal interface IFileInformationDataColumn
     {

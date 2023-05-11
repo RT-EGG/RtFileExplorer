@@ -1,5 +1,6 @@
 ﻿using RtFileExplorer.Model.FileInformation;
-using RtFileExplorer.View.Columns;
+using RtFileExplorer.View.Components;
+using RtFileExplorer.View.Components.Columns;
 using RtFileExplorer.ViewModel.Wpf.Directory;
 using RtFileExplorer.ViewModel.Wpf.PathInformation;
 using System;
@@ -15,6 +16,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Utility.Wpf.Extensions;
@@ -30,6 +32,14 @@ namespace RtFileExplorer.View
         {
             InitializeComponent();
             
+            foreach (var item in ContextMenu.Items.OfType<MenuItem>())
+            {
+                if (item is ColumnVisibilityMenuItem)
+                    _columnVisibilityMenuItems.Add(item);
+                else
+                    _nonColumnVisibilityMenuItems.Add(item);
+            }
+
             VerifyColumns(DataContext);
         }
 
@@ -221,5 +231,42 @@ namespace RtFileExplorer.View
                     break;
             }
         }
+
+        private void DataGrid_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            var visibleCount = 0;
+            if (e.OriginalSource is DependencyObject source)
+            {
+                // refered
+                // https://stackoverflow.com/questions/59423764/context-menu-for-specific-dynamic-column-for-datagrid-wpf
+                while (source is not null
+                    && source is not DataGridCell
+                    && source is not DataGridColumnHeader
+                    && source is not DataGridRow)
+                {
+                    source = (source is Visual || source is Visual3D)
+                        ? VisualTreeHelper.GetParent(source)
+                        : LogicalTreeHelper.GetParent(source);
+                }
+
+                if (source is DataGridColumnHeader)
+                {
+                    _columnVisibilityMenuItems.ForEach(item => item.Visibility = Visibility.Visible);
+                    _nonColumnVisibilityMenuItems.ForEach(item => item.Visibility = Visibility.Collapsed);
+                    visibleCount = _columnVisibilityMenuItems.Count;
+                }
+                else
+                {
+                    _columnVisibilityMenuItems.ForEach(item => item.Visibility = Visibility.Collapsed);
+                    _nonColumnVisibilityMenuItems.ForEach(item => item.Visibility = Visibility.Visible);
+                    visibleCount = _nonColumnVisibilityMenuItems.Count;
+                }
+            }
+
+            e.Handled = visibleCount == 0;
+        }
+
+        private List<MenuItem> _columnVisibilityMenuItems = new List<MenuItem>();
+        private List<MenuItem> _nonColumnVisibilityMenuItems = new List<MenuItem>();
     }
 }

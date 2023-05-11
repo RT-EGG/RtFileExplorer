@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace RtFileExplorer.View.Columns
+namespace RtFileExplorer.View.Components.Columns
 {
     internal class FileInformationTextDataColumn : DataGridTextColumn, IFileInformationDataColumn
     {

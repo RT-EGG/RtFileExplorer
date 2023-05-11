@@ -20,6 +20,7 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
             SortingCommand = new SortingCommandClass(this);
             OpenFilterViewCommand = new OpenFilterViewCommandClass(this);
             ColumnPropertyChagedCommand = new ColumnPropertyChangedCommandClass(this);
+            SwitchColumnVisibilityCommand = new SwitchColumnVisibilityCommandClass(this);
             FilterViewModel = new PathInformationFilterViewModel(_collectionViewSource);
 
             _collectionViewSource.Source = _pathes;
@@ -91,6 +92,7 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformation
         public ICommand SortingCommand { get; }
         public ICommand OpenFilterViewCommand { get; }
         public ICommand ColumnPropertyChagedCommand { get; }
+        public ICommand SwitchColumnVisibilityCommand { get; }
         public PathInformationFilterViewModel FilterViewModel { get; }
 
         public void AddPathInformation(PathInformationViewModel inValue)

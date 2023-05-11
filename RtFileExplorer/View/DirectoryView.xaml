@@ -8,7 +8,9 @@
              xmlns:ViewModel="clr-namespace:RtFileExplorer.ViewModel.Wpf.Directory;assembly=RtFileExplorer.ViewModel.Wpf"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:Interactivity="clr-namespace:Reactive.Bindings.Interactivity;assembly=ReactiveProperty.WPF"
-             xmlns:Custom="clr-namespace:Utility.Wpf.CustomControls;assembly=Utility.Wpf"
+             xmlns:Custom="clr-namespace:Utility.Wpf.CustomControls;assembly=Utility.Wpf" 
+             xmlns:Components="clr-namespace:RtFileExplorer.View.Components"
+             xmlns:Converter ="clr-namespace:RtFileExplorer.Converter"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              DataContextChanged="UserControl_DataContextChanged"
@@ -20,6 +22,7 @@
     </UserControl.DataContext>
     <UserControl.Resources>
         <utils:BindingProxy x:Key="Proxy" Data="{Binding}" />
+        <Converter:FilePropertyItemTypeNameConverter x:Key="ItemTypeNameConverter" />
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -52,12 +55,23 @@
             PreviewKeyDown="DataGrid_PreviewKeyDown"
             CellEditEnding="DataGrid_CellEditEnding"
             ColumnHeaderDragCompleted="DataGrid_ColumnHeaderDragCompleted"
+            ContextMenuOpening="DataGrid_ContextMenuOpening"
         >
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Sorting">
                     <Interactivity:EventToReactiveCommand Command="{Binding SortingCommand}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
+            <DataGrid.ContextMenu>
+                <ContextMenu x:Name="ContextMenu">
+                    <Components:ColumnVisibilityMenuItem DataContext="{Binding Data, Source={StaticResource Proxy}}" ItemType="Name" />
+                    <Components:ColumnVisibilityMenuItem DataContext="{Binding Data, Source={StaticResource Proxy}}" ItemType="Size" />
+                    <Components:ColumnVisibilityMenuItem DataContext="{Binding Data, Source={StaticResource Proxy}}" ItemType="CreationDate" />
+                    <Components:ColumnVisibilityMenuItem DataContext="{Binding Data, Source={StaticResource Proxy}}" ItemType="LastWriteDate" />
+                    <Components:ColumnVisibilityMenuItem DataContext="{Binding Data, Source={StaticResource Proxy}}" ItemType="LastAccessDate" />
+                    <Components:ColumnVisibilityMenuItem DataContext="{Binding Data, Source={StaticResource Proxy}}" ItemType="Rating" />
+                </ContextMenu>
+            </DataGrid.ContextMenu>
         </DataGrid>
         <GridSplitter 
             Grid.Row="1" Grid.Column="1"

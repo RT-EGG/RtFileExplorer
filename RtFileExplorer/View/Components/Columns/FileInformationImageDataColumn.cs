@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace RtFileExplorer.View.Columns
+namespace RtFileExplorer.View.Components.Columns
 {
     internal class FileInformationImageDataColumn : DataGridTemplateColumn, IFileInformationDataColumn
     {
