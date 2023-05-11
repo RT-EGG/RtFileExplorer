@@ -22,6 +22,8 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformationList
             OpenFilterViewCommand = new OpenFilterViewCommandClass(this);
             ColumnPropertyChagedCommand = new ColumnPropertyChangedCommandClass(this);
             SwitchColumnVisibilityCommand = new SwitchColumnVisibilityCommandClass(this);
+            CopyPathCommand = new CopyPathCommandClass(this);
+            CutPathCommand = new CutPathCommandClass(this);
             FilterViewModel = new PathInformationFilterViewModel(_collectionViewSource);
 
             _collectionViewSource.Source = _pathes;
@@ -94,6 +96,8 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformationList
         public ICommand OpenFilterViewCommand { get; }
         public ICommand ColumnPropertyChagedCommand { get; }
         public ICommand SwitchColumnVisibilityCommand { get; }
+        public ICommand CopyPathCommand { get; }
+        public ICommand CutPathCommand { get; }
         public PathInformationFilterViewModel FilterViewModel { get; }
 
         public void AddPathInformation(PathInformationViewModel inValue)
