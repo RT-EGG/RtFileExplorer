@@ -10,7 +10,7 @@ using System.Threading;
 
 namespace RtFileExplorer.ViewModel.Wpf
 {
-    internal class Logger
+    public class Logger
     {
         public IDisposable StartWriteThread()
         {
@@ -19,10 +19,13 @@ namespace RtFileExplorer.ViewModel.Wpf
 
             _writeThread = new Timer(_ =>
             {
-                WriteLogCore();
+                WriteSoon();
             }, this, 3000, 3000);
             return _writeThread;
         }
+
+        public void WriteSoon()
+            => WriteLogCore();
 
         public void PushLog(LogObject inLog)
         {
@@ -69,6 +72,7 @@ namespace RtFileExplorer.ViewModel.Wpf
 
         public static Logger Instance { get; } = new Logger();
         private Timer? _writeThread = null;
+        private bool _isWriting = false;
         private readonly Queue<LogObject> _writeQueue = new Queue<LogObject>();
 
         public enum LogLevel
