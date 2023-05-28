@@ -1,6 +1,7 @@
 ﻿using RtFileExplorer.ViewModel.Wpf.PathInformation;
 using System.Collections;
 using System.Collections.Specialized;
+using System.IO;
 using System.Linq;
 using System.Windows;
 
@@ -20,14 +21,19 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformationList
 
             public override void Execute(object? parameter)
             {
-                var collection = new StringCollection();
-                collection.AddRange(
-                    (parameter as IEnumerable)!
-                        .OfType<PathInformationViewModel>()
-                        .Select(path => path.Path).ToArray()
-                );
+                var filepathes = (parameter as IEnumerable)!
+                                .OfType<PathInformationViewModel>()
+                                .Select(item => item.Path).ToArray();
 
-                Clipboard.SetFileDropList(collection);
+                var stream = new MemoryStream(new byte[]
+                {
+                    (byte)(DragDropEffects.Copy | DragDropEffects.Link),
+                    0, 0, 0
+                });
+                var data = new DataObject(DataFormats.FileDrop, filepathes);
+                data.SetData("Preferred DropEffect", stream);
+
+                Clipboard.SetDataObject(data);
             }
         }
     }

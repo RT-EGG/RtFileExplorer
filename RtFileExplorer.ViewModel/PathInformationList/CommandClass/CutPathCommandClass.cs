@@ -20,16 +20,17 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformationList
 
             public override void Execute(object? parameter)
             {
-                var pathes = (parameter as IEnumerable)!
-                        .OfType<PathInformationViewModel>()
-                        .Select(path => path.Path).ToArray();
+                var filepathes = (parameter as IEnumerable)!
+                                .OfType<PathInformationViewModel>()
+                                .Select(item => item.Path).ToArray();
 
-                var data = new DataObject(DataFormats.FileDrop, pathes);
-                data.SetData("Preferred DropEffect",
-                    new MemoryStream(new byte[] {
-                        (byte)DragDropEffects.Move, 0, 0, 0
-                    })
-                );
+                var stream = new MemoryStream(new byte[]
+                {
+                    (byte)DragDropEffects.Move,
+                    0, 0, 0
+                });
+                var data = new DataObject(DataFormats.FileDrop, filepathes);
+                data.SetData("Preferred DropEffect", stream);
 
                 Clipboard.SetDataObject(data);
             }

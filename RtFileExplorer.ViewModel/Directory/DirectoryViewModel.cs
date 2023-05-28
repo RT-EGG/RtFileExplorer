@@ -30,6 +30,7 @@ namespace RtFileExplorer.ViewModel.Wpf.Directory
 
             OpenPathCommand = new OpenPathCommandClass(this);
             RefreshCommand = new RefreshCommandClass(this);
+            PastePathCommand = new PastePathCommandClass(this);
         }
 
         public string Directory
@@ -54,6 +55,7 @@ namespace RtFileExplorer.ViewModel.Wpf.Directory
 
         public ICommand OpenPathCommand { get; }
         public ICommand RefreshCommand { get; }
+        public ICommand PastePathCommand { get; }
         internal FileSharedProperties SharedProperties { get; } = new FileSharedProperties();
 
         private FileSystemWatcher CreateNewWatcher(string inDirectoryPath)
