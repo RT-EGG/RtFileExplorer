@@ -252,7 +252,18 @@ namespace RtFileExplorer.View
                 else
                 {
                     _columnVisibilityMenuItems.ForEach(item => item.Visibility = Visibility.Collapsed);
-                    _nonColumnVisibilityMenuItems.ForEach(item => item.Visibility = Visibility.Visible);
+                    _nonColumnVisibilityMenuItems.ForEach(item =>
+                    {
+                        if (item.Command is not null)
+                        {
+                            item.Visibility = item.Command.CanExecute(DataGrid.SelectedItems)
+                                    ? Visibility.Visible : Visibility.Collapsed;
+                        }
+                        else
+                        {
+                            item.Visibility = Visibility.Visible;
+                        }
+                    });
                     visibleCount = _nonColumnVisibilityMenuItems.Count;
                 }
             }
