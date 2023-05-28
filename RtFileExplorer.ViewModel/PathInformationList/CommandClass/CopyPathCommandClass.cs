@@ -1,6 +1,5 @@
 ﻿using RtFileExplorer.ViewModel.Wpf.PathInformation;
 using System.Collections;
-using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -17,7 +16,8 @@ namespace RtFileExplorer.ViewModel.Wpf.PathInformationList
 
             public override bool CanExecute(object? parameter)
                 => parameter is IEnumerable items
-                && items.OfType<object>().All(item => item is PathInformationViewModel);
+                && items.OfType<object>().Any()
+                && items.OfType<object>().All(item => (item is PathInformationViewModel) && (item is not DriveInformationViewModel));
 
             public override void Execute(object? parameter)
             {
