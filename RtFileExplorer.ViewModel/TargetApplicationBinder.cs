@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using RtFileExplorer.ViewModel.Wpf.Utils;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Threading;
@@ -13,10 +15,17 @@ namespace RtFileExplorer.ViewModel.Wpf
         event FrameworkElementNotifyAction? OnBeforeFrameworkElementRemove;
     }
 
+    public interface ITargetApplicationDialogs
+    {
+        IDisposable ShowProgressDialog(ProgressViewModel inViewModel);
+    }
+
     public interface ITargetApplication : ITargetApplicationEvents
     {
         Dispatcher UiDispatcher { get; }
         IEnumerable<FrameworkElement> FrameworkElements { get; }
+
+        ITargetApplicationDialogs Dialogs { get; }
 
         void QuitApplication();
     }

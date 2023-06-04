@@ -1,4 +1,5 @@
-﻿using RtFileExplorer.ViewModel.Wpf;
+﻿using RtFileExplorer.View.Dialogs;
+using RtFileExplorer.ViewModel.Wpf;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Threading;
@@ -15,6 +16,7 @@ namespace RtFileExplorer
 
         public Dispatcher UiDispatcher => Application.Current.Dispatcher;
         public IEnumerable<FrameworkElement> FrameworkElements => _frameworkElements;
+        public ITargetApplicationDialogs Dialogs { get; } = new Dialogs();
 
         public void QuitApplication()
             => _application.Shutdown(0);

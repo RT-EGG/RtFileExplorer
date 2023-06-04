@@ -73,12 +73,12 @@
 
                     <MenuItem Header="ファイルを開く" Command="{Binding OpenPathCommand}"
                               CommandParameter="{Binding PlacementTarget.SelectedItems, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
-                    <MenuItem Header="コピー" Command="{Binding CopyPathCommand}"
+                    <!--<MenuItem Header="コピー" Command="{Binding CopyPathCommand}"
                               CommandParameter="{Binding PlacementTarget.SelectedItems, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
                     <MenuItem Header="切り取り" Command="{Binding CutPathCommand}"
                               CommandParameter="{Binding PlacementTarget.SelectedItems, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
                     <MenuItem Header="貼り付け" Command="{Binding PastePathCommand}"
-                              CommandParameter="{Binding PlacementTarget.SelectedItems, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"/>                    
+                              CommandParameter="{Binding PlacementTarget.SelectedItems, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"/>-->                    
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>
