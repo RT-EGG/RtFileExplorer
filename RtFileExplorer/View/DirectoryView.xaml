@@ -17,9 +17,9 @@
              PreviewKeyDown="UserControl_PreviewKeyDown"
              Loaded="UserControl_Loaded"
              >
-    <UserControl.DataContext>
+    <d:UserControl.DataContext>
         <ViewModel:DirectoryViewModel />
-    </UserControl.DataContext>
+    </d:UserControl.DataContext>
     <UserControl.Resources>
         <utils:BindingProxy x:Key="Proxy" Data="{Binding}" />
         <Converter:FilePropertyItemTypeNameConverter x:Key="ItemTypeNameConverter" />

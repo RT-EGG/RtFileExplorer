@@ -3,6 +3,7 @@ using Reactive.Bindings.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using Utility;
 
@@ -70,16 +71,22 @@ namespace RtFileExplorer.ViewModel.Wpf
         }
 
         protected void FirePropertyChanged(params string[] inPropertyNames)
-            => inPropertyNames.ForEach(name => FirePropertyChanged(name));
+            => FirePropertyChanged((IEnumerable<string>)inPropertyNames);
 
-        protected void FirePropertyChanged(string inPropertyName)
-            => FirePropertyChanged(new PropertyChangedEventArgs(inPropertyName));
+        protected void FirePropertyChanged(IEnumerable<string> inPropertyNames)
+            => FirePropertyChanged(inPropertyNames.Select(name => new PropertyChangedEventArgs(name)));
 
-        protected void FirePropertyChanged(PropertyChangedEventArgs inArgs)
+        protected void FirePropertyChanged(params PropertyChangedEventArgs[] inArgs)
+            => FirePropertyChanged((IEnumerable<PropertyChangedEventArgs>)inArgs);
+
+        protected void FirePropertyChanged(IEnumerable<PropertyChangedEventArgs> inArgs)
         {
             if (TargetApplicationBinder.Instance?.Application != null)
             {
-                TargetApplicationBinder.Instance.Application.UiDispatcher.BeginInvoke(() => PropertyChanged?.Invoke(this, inArgs));
+                TargetApplicationBinder.Instance.Application.UiDispatcher.BeginInvoke(() =>
+                {
+                    inArgs.ForEach(args => PropertyChanged?.Invoke(this, args));
+                });
             }
         }
 

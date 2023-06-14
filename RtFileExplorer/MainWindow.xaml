@@ -31,8 +31,35 @@
                 />
             </MenuItem>
         </Menu>
-        <view:DirectoryView 
+        <TabControl
             Grid.Row="1"
-        />
+            ItemsSource="{Binding Directories}"
+        >
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock                        
+                            Grid.Column="0"
+                            Text="{Binding DirectoryName, UpdateSourceTrigger=PropertyChanged}"
+                        />
+                        <Button 
+                            Grid.Column="1" Margin="4,0,0,0"
+                            Content="×" Background="Transparent" BorderBrush="Transparent"
+                        />
+                    </Grid>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <view:DirectoryView
+                        DataContext="{Binding}"
+                    />
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>
     </Grid>
 </Window>

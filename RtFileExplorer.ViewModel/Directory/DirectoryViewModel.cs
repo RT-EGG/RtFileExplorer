@@ -5,7 +5,6 @@ using RtFileExplorer.ViewModel.Wpf.PathInformation;
 using RtFileExplorer.ViewModel.Wpf.PathInformationList;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Input;
@@ -21,7 +20,11 @@ namespace RtFileExplorer.ViewModel.Wpf.Directory
             {
                 _fileSystemWatcher?.Dispose();
 
-                FirePropertyChanged(nameof(Directory), nameof(DirectoryPathes));
+                FirePropertyChanged(
+                    nameof(Directory), 
+                    nameof(DirectoryName), 
+                    nameof(DirectoryPathes)
+                );
 
                 Refresh();
             });
@@ -44,6 +47,19 @@ namespace RtFileExplorer.ViewModel.Wpf.Directory
 
                     _directory.Value = value;
                 }
+            }
+        }
+
+        public string DirectoryName
+        {
+            get {
+                if (string.IsNullOrEmpty(Directory))
+                    return "PC";
+
+                var result = Path.GetFileName(Directory);
+                return string.IsNullOrEmpty(result) 
+                    ? Directory.Substring(0, 2) // ドライブ名
+                    : result;
             }
         }
 
